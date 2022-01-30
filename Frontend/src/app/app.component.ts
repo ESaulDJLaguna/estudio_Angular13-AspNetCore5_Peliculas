@@ -25,7 +25,7 @@ export class AppComponent implements OnInit {
           precio: 300.99,
         },
       ];
-    }, 3000);
+    }, 1000);
     setTimeout(() => {
       this.peliculasProximosEstrenos = [
         // {
