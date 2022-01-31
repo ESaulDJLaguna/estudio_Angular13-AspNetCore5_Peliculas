@@ -1,0 +1,38 @@
+button {
+  margin-right: 1rem;
+}
+
+/* Color del label */
+mat-label {
+  color: #7b1fa2;
+}
+
+.mat-flat-button:disabled {
+  background-color: rgb(173, 166, 166);
+  color: rgb(126, 124, 124);
+}
+
+/* Color del botón Cancelar */
+.mat-stroked-button {
+  border: 1px solid #f44336;
+}
+.mat-stroked-button:hover {
+  color: #f44336;
+}
+
+/* Color del borde del campo del formulario */
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+  color: gray;
+}
+
+/* Color del borde del campo del formulario cuando se va a escribir algo */
+::ng-deep
+  .mat-form-field-appearance-outline.mat-focused
+  .mat-form-field-outline-thick {
+  color: #7b1fa2;
+}
+
+mat-form-field {
+  width: 100%;
+  max-width: 500px;
+}
