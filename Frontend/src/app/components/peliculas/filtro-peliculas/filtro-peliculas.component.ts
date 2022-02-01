@@ -61,12 +61,32 @@ export class FiltroPeliculasComponent implements OnInit {
   }
 
   buscarPeliculas(valores: any) {
+    // El campo título del formulario no está vacío
     if (valores.titulo) {
+      // Filtramos por título
       this.peliculas = this.peliculas.filter(
+        // Si lo que sea que el usuario haya escrito (valores.titulo) se encuentra
+        // en el título de una película (pelicula.titulo) del listado de películas
+        // queremos mostrar este elemento en películas
         (pelicula) => pelicula.titulo.indexOf(valores.titulo) !== -1
       );
       /* console.log('buscarPeliculas():');
       console.log(this.peliculas); */
+    }
+
+    if (valores.generoId !== 0) {
+      this.peliculas = this.peliculas.filter(
+        (pelicula) => pelicula.generos.indexOf(valores.generoId) !== -1
+      );
+    }
+    if (valores.proximosEstrenos) {
+      this.peliculas = this.peliculas.filter(
+        (pelicula) => pelicula.proximosEstrenos
+      );
+    }
+
+    if (valores.enCines) {
+      this.peliculas = this.peliculas.filter((pelicula) => pelicula.enCines);
     }
   }
 
