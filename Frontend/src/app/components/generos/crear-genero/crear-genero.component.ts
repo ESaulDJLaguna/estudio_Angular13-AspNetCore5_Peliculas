@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { GeneroCreacionDTO } from 'src/app/models/genero';
+import { IGeneroCreacionDTO } from 'src/app/models/IGenero';
 
 @Component({
   selector: 'app-crear-genero',
@@ -10,7 +10,7 @@ import { GeneroCreacionDTO } from 'src/app/models/genero';
 export class CrearGeneroComponent {
   constructor(private router: Router) {}
 
-  guardarCambios(genero: GeneroCreacionDTO) {
+  guardarCambios(genero: IGeneroCreacionDTO) {
     //TODO. GUARDAR LOS CAMBIOS
     console.log(genero);
     this.router.navigate(['generos']);

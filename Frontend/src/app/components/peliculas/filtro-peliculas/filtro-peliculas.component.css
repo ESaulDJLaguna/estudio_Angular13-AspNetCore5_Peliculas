@@ -32,3 +32,13 @@ mat-label {
   .mat-form-field-outline-thick {
   color: #7b1fa2;
 }
+
+/* Cambia el color de las opciones: <mat-option>*/
+::ng-deep .mat-option-text {
+  color: white;
+}
+
+/* Cambia el color de la opción elegida en el <mat-select> */
+::ng-deep .mat-select-value {
+  color: black;
+}

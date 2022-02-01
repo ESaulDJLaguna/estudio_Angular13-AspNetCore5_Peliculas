@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { GeneroCreacionDTO } from 'src/app/models/genero';
+import { IGeneroCreacionDTO } from 'src/app/models/IGenero';
 import { primeraLetraMayuscula } from '../../utilities/validators/primeraLetraMayuscula';
 
 @Component({
@@ -11,9 +11,9 @@ import { primeraLetraMayuscula } from '../../utilities/validators/primeraLetraMa
 export class FormularioGeneroComponent implements OnInit {
   form: FormGroup;
   @Input()
-  modelo: GeneroCreacionDTO;
+  modelo: IGeneroCreacionDTO;
   @Output()
-  onSubmit: EventEmitter<GeneroCreacionDTO> = new EventEmitter<GeneroCreacionDTO>();
+  onSubmit: EventEmitter<IGeneroCreacionDTO> = new EventEmitter<IGeneroCreacionDTO>();
 
   constructor(private formBuilder: FormBuilder) {}
 
