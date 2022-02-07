@@ -1,0 +1,38 @@
+form {
+  width: 100%;
+  max-width: 500px;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+img {
+  vertical-align: middle;
+  margin-right: 8px;
+  width: 35px;
+  height: 45px;
+}
+
+/* Color del borde del campo del formulario */
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+  color: gray;
+}
+
+::ng-deep .mat-form-field-appearance-legacy .mat-form-field-label {
+  color: #7b1fa2;
+}
+
+table {
+  width: 100%;
+  background-color: white;
+  margin-bottom: 1rem;
+}
+
+::ng-deep .mat-cell {
+  color: black;
+}
+
+mat-icon {
+  cursor: pointer;
+}

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IActorCreacionDTO } from 'src/app/models/IActor';
+import { IActorCreacionDTO } from 'src/app/models/Actor';
 
 @Component({
   selector: 'app-crear-actor',

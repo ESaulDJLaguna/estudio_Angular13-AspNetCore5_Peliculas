@@ -1,0 +1,15 @@
+mat-form-field {
+  width: 100%;
+}
+
+textarea {
+  height: 300px;
+}
+/* Cambia color label de <mat-tab> */
+::ng-deep .mat-tab-label {
+  color: #7b1fa2;
+}
+/* Cambia color de <mat-label> */
+::ng-deep .mat-form-field-label {
+  color: #7b1fa2;
+}

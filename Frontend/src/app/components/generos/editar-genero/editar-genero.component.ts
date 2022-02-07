@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { IGeneroCreacionDTO } from 'src/app/models/IGenero';
+import { IGeneroCreacionDTO } from 'src/app/models/Genero';
 
 @Component({
   selector: 'app-editar-genero',

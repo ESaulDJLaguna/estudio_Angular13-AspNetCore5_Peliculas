@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { IGeneroCreacionDTO } from 'src/app/models/IGenero';
+import { IGeneroCreacionDTO } from 'src/app/models/Genero';
 import { primeraLetraMayuscula } from '../../utilities/validators/primeraLetraMayuscula';
 
 @Component({

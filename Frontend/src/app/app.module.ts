@@ -1,6 +1,8 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { MarkdownModule } from 'ngx-markdown';
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 
 import { AppComponent } from './app.component';
 import { ListadoGenericoComponent } from './components/utilities/listado-generico/listado-generico.component';
@@ -23,10 +25,17 @@ import { EditarActorComponent } from './components/actores/editar-actor/editar-a
 import { EditarGeneroComponent } from './components/generos/editar-genero/editar-genero.component';
 import { EditarCineComponent } from './components/cines/editar-cine/editar-cine.component';
 import { EditarPeliculaComponent } from './components/peliculas/editar-pelicula/editar-pelicula.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormularioGeneroComponent } from './components/generos/formulario-genero/formulario-genero.component';
 import { FiltroPeliculasComponent } from './components/peliculas/filtro-peliculas/filtro-peliculas.component';
 import { FormularioActoresComponent } from './components/actores/formulario-actores/formulario-actores.component';
+import { InputImgComponent } from './components/utilities/input-img/input-img.component';
+import { InputMarkdownComponent } from './components/utilities/input-markdown/input-markdown.component';
+import { FormularioCineComponent } from './components/cines/formulario-cine/formulario-cine.component';
+import { MapaComponent } from './components/utilities/mapa/mapa.component';
+import { FormularioPeliculaComponent } from './components/peliculas/formulario-pelicula/formulario-pelicula.component';
+import { SelectorMultipleComponent } from './components/utilities/selector-multiple/selector-multiple.component';
+import { AutocompleteActoresComponent } from './components/actores/autocomplete-actores/autocomplete-actores.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +60,13 @@ import { FormularioActoresComponent } from './components/actores/formulario-acto
     FormularioGeneroComponent,
     FiltroPeliculasComponent,
     FormularioActoresComponent,
+    InputImgComponent,
+    InputMarkdownComponent,
+    FormularioCineComponent,
+    MapaComponent,
+    FormularioPeliculaComponent,
+    SelectorMultipleComponent,
+    AutocompleteActoresComponent,
   ],
   imports: [
     BrowserModule,
@@ -58,6 +74,9 @@ import { FormularioActoresComponent } from './components/actores/formulario-acto
     BrowserAnimationsModule,
     MaterialModule,
     ReactiveFormsModule,
+    LeafletModule,
+    FormsModule,
+    MarkdownModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent],

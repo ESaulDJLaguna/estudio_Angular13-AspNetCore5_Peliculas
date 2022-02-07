@@ -1,0 +1,15 @@
+<mat-tab-group>
+	<!-- Requiere el módulo 'MatTabsModule' de material design -->
+	<mat-tab label="Editar">
+		<mat-form-field appearance="fill" (change)="changeMarkdown.emit($event.target.value)">
+			<mat-label>{{placeHolderTextArea}}</mat-label>
+			<!-- El parámetro del método será el contenido (texto) que tenga en <textarea> -->
+			<!-- <textarea (input)="inputTextArea($event.target.value)" matInput></textarea> -->
+			<textarea [(ngModel)]="contenidoMarkdown" matInput></textarea>
+		</mat-form-field>
+	</mat-tab>
+	<mat-tab label="Preview">
+		<!-- Requiere el módulo 'InputMarkdownComponent' -->
+		<markdown [data]="contenidoMarkdown" ngPreserveWhiteSpaces></markdown>
+	</mat-tab>
+</mat-tab-group>

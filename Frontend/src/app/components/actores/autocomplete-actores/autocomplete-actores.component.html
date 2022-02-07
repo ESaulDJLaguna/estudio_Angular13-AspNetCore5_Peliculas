@@ -1,0 +1,61 @@
+<form>
+	<mat-form-field>
+		<input type="text" placeholder="Seleccione los actores" matInput [formControl]="control" [matAutocomplete]="auto"
+			style="cursor: pointer;">
+	</mat-form-field>
+	<mat-autocomplete #auto (optionSelected)="optionSelected($event)">
+		<mat-option *ngFor="let opcion of actores" [value]="opcion">
+			<img [src]="opcion.foto"> {{opcion.nombre}}
+		</mat-option>
+	</mat-autocomplete>
+</form>
+
+<!-- dataSource es el origen de los datos para la tabla -->
+<table *ngIf="actoresSeleccionados.length > 0" mat-table [dataSource]="actoresSeleccionados" class="mat-elevation-z8"
+	cdkDropList [cdkDropListData]="" actoresSeleccionados (cdkDropListDropped)="finalizaArrastre($event)">
+	<!-- Cómo funciona la tabla.
+		Básicamente, dentro de la tabla tendremos un conjunto de ng-containers, y cada uno de ellos
+		representará una columna de la tabla, y luego dentro de ese ng-container se definirán cosas como
+		la cabecera, lo que se mostrará en cada celda, etc.
+	-->
+	<!-- imagen es el nombre de la columna -->
+	<ng-cotainer matColumnDef="imagen">
+		<th mat-header-cell *matHeaderCellDef>No.</th>
+		<!-- element nos permite acceder al elemento actual que se está iterando -->
+		<td mat-cell *matCellDef="let element">
+			<img style="height: 80px; width: auto;" [src]="element.foto">
+		</td>
+	</ng-cotainer>
+	<!-- nombre del actor -->
+	<ng-cotainer matColumnDef="nombre">
+		<th mat-header-cell *matHeaderCellDef>Nombre</th>
+		<!-- element nos permite acceder al elemento actual que se está iterando -->
+		<td mat-cell *matCellDef="let element">
+			{{element.nombre}}
+		</td>
+	</ng-cotainer>
+	<!-- Personaje que interpreta el actor -->
+	<ng-cotainer matColumnDef="personaje">
+		<th mat-header-cell *matHeaderCellDef>Personaje</th>
+		<!-- element nos permite acceder al elemento actual que se está iterando -->
+		<td mat-cell *matCellDef="let element">
+			<mat-form-field appearance="outline" style="margin-top: 10px;">
+				<mat-label>Personaje</mat-label>
+				<input matInput [(ngModel)]="element.personaje">
+			</mat-form-field>
+		</td>
+	</ng-cotainer>
+	<!-- Acciones: borrado, etc. -->
+	<ng-cotainer matColumnDef="acciones">
+		<th mat-header-cell *matHeaderCellDef>Acción</th>
+		<!-- element nos permite acceder al elemento actual que se está iterando -->
+		<td mat-cell *matCellDef="let element">
+			<mat-icon mat-list-icon (click)="eliminar(element)">
+				close
+			</mat-icon>
+		</td>
+	</ng-cotainer>
+	<!-- Además de definir los ng-container, tendremos que definir las columnas a mostrar -->
+	<tr mat-row *matRowDef="let row; columns: columnasAMostrar" cdkDrag [cdkDragData]="row"></tr>
+
+</table>

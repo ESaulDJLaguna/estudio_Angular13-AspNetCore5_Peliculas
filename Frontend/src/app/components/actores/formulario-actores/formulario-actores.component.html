@@ -14,6 +14,13 @@
 		<mat-error>El campo Nombre es requerido</mat-error>
 	</mat-form-field>
 
+	<app-input-img (archivoSeleccionado)="archivoSeleccionado($event)" [urlImagenActual]="modelo?.foto">
+	</app-input-img>
+
+	<!-- Muestra el componente de markdown recibe de este el texto escrito. No podemos usar change porque ese evento ya existen en jS -->
+	<app-input-markdown (changeMarkdown)="cambioMarkdown($event)" [placeHolderTextArea]="'Biografía'">
+	</app-input-markdown>
+
 	<div>
 		<button mat-flat-button color="primary" [disabled]="form.invalid">
 			Guardar Cambios
