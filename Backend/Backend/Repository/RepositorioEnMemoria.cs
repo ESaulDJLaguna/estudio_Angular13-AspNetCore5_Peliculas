@@ -28,5 +28,13 @@ namespace Backend.Repository
         {
             return _generos;
         }
+
+        public async Task<Genero> ObtenerPorId(int Id)
+        {
+            //await Task.Delay(TimeSpan.FromSeconds(3));
+            await Task.Delay(1);
+            // FirstOrDefault devuelve el género que coincida con un id o nulo si no lo encuentra
+            return _generos.FirstOrDefault(x => x.Id == Id);
+        }
     }
 }
