@@ -1,6 +1,7 @@
 ﻿using Backend.Models;
 using Backend.Repository.IRepository;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,12 +40,23 @@ namespace Backend.Controllers
         // El parámetro nombre es opcional
         //[HttpGet("{Id}/{nombre=Roberto}")] // api/generos/1 o api/generos/1/Felipe
         // Restricción de la variable de ruta. Si id recibe algo distinto de un entero, lanza un 404
-        [HttpGet("{Id:int}/{nombre=Roberto}")] // api/generos/1 o api/generos/1/Felipe
+        //[HttpGet("{Id:int}/{nombre=Roberto}")] // api/generos/1 o api/generos/1/Felipe
         //public Genero Get(int Id, string nombre) // Recibe dos parámetros
         // Como ObtenerPorId es asíncrono, este método lo convertimos en asíncrono. Por lo que debe devolver un Task<T>
-        public async Task<ActionResult<Genero>> Get(int Id, string nombre) // Recibe dos parámetros
+        //public async Task<ActionResult<Genero>> Get(int Id, string nombre) // Recibe dos parámetros
+        [HttpGet("{Id:int}")] // nombre ya no se pasará como una variable de ruta sino como un query string
+        //public async Task<ActionResult<Genero>> Get(int Id, [BindRequired] string nombre) // nombre es obligatorio
+        // nombre NO es obligatorio y se envía desde la cabecera de la petición
+        public async Task<ActionResult<Genero>> Get(int Id, [FromHeader] string nombre) // nombre es obligatorio
         //public IActionResult Get(int Id, string nombre) // Recibe dos parámetros
         {
+            // Si ModelState.IsValid es verdadero, es porque es válido y si es falso, es porque NO es válido
+            if(!ModelState.IsValid)
+            {
+                // Le enviará al usuario un error 400 y le va a indicar qué reglas de validación no ha cumplido
+                return BadRequest(ModelState);
+            }
+
             // ObtenerPorId retorna un Task<Genero>, usamos await para "sacar" el Genero
             var genero = await repositorio.ObtenerPorId(Id);
 
@@ -59,13 +71,13 @@ namespace Backend.Controllers
         }
 
         [HttpPost]
-        public ActionResult Post()
+        public ActionResult Post([FromBody] Genero genero)
         {
             return NoContent();
         }
 
         [HttpPut]
-        public ActionResult Put()
+        public ActionResult Put([FromBody] Genero genero)
         {
             return NoContent();
         }
