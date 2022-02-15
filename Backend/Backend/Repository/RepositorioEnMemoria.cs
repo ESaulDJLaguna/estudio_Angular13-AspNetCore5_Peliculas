@@ -21,7 +21,10 @@ namespace Backend.Repository
                 new Genero(){ Id = 1, NombreGenero = "Comedia" },
                 new Genero(){ Id = 2, NombreGenero = "Acción" }
             };
+            _guid = Guid.NewGuid();
         }
+
+        public Guid _guid { get; set; }
 
         // Método que devuelve el listado de géneros
         public List<Genero> ObtenerTodosLosGeneros()
@@ -36,5 +39,17 @@ namespace Backend.Repository
             // FirstOrDefault devuelve el género que coincida con un id o nulo si no lo encuentra
             return _generos.FirstOrDefault(x => x.Id == Id);
         }
+
+        public Guid ObtenerGuid()
+        {
+            return _guid;
+        }
+
+        public void CrearGenero(Genero genero)
+				{
+            // Contamos cuántos géneros hay y le sumamos 1
+            genero.Id = _generos.Count() + 1;
+            _generos.Add(genero);
+				}
     }
 }
