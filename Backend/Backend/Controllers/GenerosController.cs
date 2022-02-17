@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -17,29 +18,33 @@ namespace Backend.Controllers
 		public class GenerosController : ControllerBase
 		{
 				private readonly ILogger<GenerosController> logger;
+				private readonly ApplicationDbContext context;
 
 				//* CONTROLADORES
-				public GenerosController(ILogger<GenerosController> logger)
+				public GenerosController(ILogger<GenerosController> logger, ApplicationDbContext context)
 				{
 						this.logger = logger;
+						this.context = context;
 				}
 				
 				[HttpGet] // api/generos
-				public ActionResult<List<Genero>> Get()
+				public async Task<ActionResult<List<Genero>>> Get()
 				{
-						return new List<Genero>() { new Genero() { Id = 1, NombreGenero = "Comedia" } };
+						return await context.Generos.ToListAsync();
 				}
 				
 				[HttpGet("{Id:int}")] // api/generos/1
-				public async Task<ActionResult<Genero>> Get(int Id)
+				public ActionResult<Genero> Get(int Id)
 				{
 						throw new NotImplementedException();
 				}
 				
 				[HttpPost]
-				public ActionResult Post([FromBody] Genero genero)
+				public async Task<ActionResult> Post([FromBody] Genero genero)
 				{
-						throw new NotImplementedException();
+						context.Add(genero);
+						await context.SaveChangesAsync();
+						return NoContent();
 				}
 
 				[HttpPut]

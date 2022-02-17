@@ -19,7 +19,7 @@ export class FormularioGeneroComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
-      nombre: [
+      nombreGenero: [
         '',
         {
           validators: [Validators.required, primeraLetraMayuscula()],
@@ -38,7 +38,7 @@ export class FormularioGeneroComponent implements OnInit {
   }
 
   obtenerErrorCampoNombre() {
-    var campo = this.form.get('nombre');
+    var campo = this.form.get('nombreGenero');
 
     if (campo.hasError('required')) {
       return 'El campo nombre es requerido';

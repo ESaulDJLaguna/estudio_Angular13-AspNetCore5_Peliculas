@@ -1,3 +1,8 @@
 export interface IGeneroCreacionDTO {
-  nombre: string;
+  nombreGenero: string;
+}
+
+export interface IGeneroDTO {
+  id: number;
+  nombreGenero: string;
 }

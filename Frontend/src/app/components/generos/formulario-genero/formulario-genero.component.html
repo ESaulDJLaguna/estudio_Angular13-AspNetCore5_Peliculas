@@ -1,7 +1,7 @@
 <form (submit)="guardarCambios()" [formGroup]="form">
 	<mat-form-field appearance="outline">
 		<mat-label>Nombre</mat-label>
-		<input formControlName="nombre" matInput>
+		<input formControlName="nombreGenero" matInput>
 		<mat-error *ngIf="form.invalid">{{obtenerErrorCampoNombre()}}</mat-error>
 	</mat-form-field>
 	<div>

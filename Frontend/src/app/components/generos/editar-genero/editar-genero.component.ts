@@ -8,7 +8,7 @@ import { IGeneroCreacionDTO } from 'src/app/models/Genero';
   styleUrls: ['./editar-genero.component.css'],
 })
 export class EditarGeneroComponent implements OnInit {
-  modelo: IGeneroCreacionDTO = { nombre: 'Drama' };
+  modelo: IGeneroCreacionDTO = { nombreGenero: 'Drama' };
 
   constructor(private router: Router) {}
 

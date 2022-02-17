@@ -36,6 +36,7 @@ import { MapaComponent } from './components/utilities/mapa/mapa.component';
 import { FormularioPeliculaComponent } from './components/peliculas/formulario-pelicula/formulario-pelicula.component';
 import { SelectorMultipleComponent } from './components/utilities/selector-multiple/selector-multiple.component';
 import { AutocompleteActoresComponent } from './components/actores/autocomplete-actores/autocomplete-actores.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -77,6 +78,7 @@ import { AutocompleteActoresComponent } from './components/actores/autocomplete-
     LeafletModule,
     FormsModule,
     MarkdownModule.forRoot(),
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
