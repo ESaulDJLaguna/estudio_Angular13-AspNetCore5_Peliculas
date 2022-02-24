@@ -37,6 +37,7 @@ import { FormularioPeliculaComponent } from './components/peliculas/formulario-p
 import { SelectorMultipleComponent } from './components/utilities/selector-multiple/selector-multiple.component';
 import { AutocompleteActoresComponent } from './components/actores/autocomplete-actores/autocomplete-actores.component';
 import { HttpClientModule } from '@angular/common/http';
+import { MostrarErroresComponent } from './components/utilities/mostrar-errores/mostrar-errores.component';
 
 @NgModule({
   declarations: [
@@ -68,6 +69,7 @@ import { HttpClientModule } from '@angular/common/http';
     FormularioPeliculaComponent,
     SelectorMultipleComponent,
     AutocompleteActoresComponent,
+    MostrarErroresComponent,
   ],
   imports: [
     BrowserModule,

@@ -12,8 +12,8 @@ export class GenerosService {
 
   constructor(private http: HttpClient) {}
 
-  public obtenerTodos(): Observable<IGeneroDTO[]> {
-    return this.http.get<IGeneroDTO[]>(this.apiUrl);
+  public obtenerTodos(): Observable<any> {
+    return this.http.get<IGeneroDTO[]>(this.apiUrl, { observe: 'response' });
   }
 
   public crear(genero: IGeneroCreacionDTO) {
