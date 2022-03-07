@@ -1,3 +1,5 @@
+<app-mostrar-errores [errores]="errores"></app-mostrar-errores>
+
 <form (submit)="onSubmit()" [formGroup]="form">
 	<mat-form-field appearance="outline">
 		<mat-label>Nombre</mat-label>
@@ -18,7 +20,8 @@
 	</app-input-img>
 
 	<!-- Muestra el componente de markdown recibe de este el texto escrito. No podemos usar change porque ese evento ya existen en jS -->
-	<app-input-markdown (changeMarkdown)="cambioMarkdown($event)" [placeHolderTextArea]="'Biografía'">
+	<app-input-markdown [contenidoMarkdown]="modelo?.biografia" (changeMarkdown)="cambioMarkdown($event)"
+		[placeHolderTextArea]="'Biografía'">
 	</app-input-markdown>
 
 	<div>

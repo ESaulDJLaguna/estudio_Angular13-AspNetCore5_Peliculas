@@ -1,5 +1,6 @@
 import { HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { PageEvent } from '@angular/material/paginator';
 import { IGeneroDTO } from 'src/app/models/Genero';
 import { GenerosService } from 'src/app/services/generos.service';
 
@@ -18,17 +19,38 @@ export class IndiceGenerosComponent implements OnInit {
   constructor(private generosService: GenerosService) {}
 
   ngOnInit(): void {
-    this.generosService.obtenerTodos().subscribe(
-      (respuesta: HttpResponse<IGeneroDTO[]>) => {
-        this.generos = respuesta.body;
-        console.log(respuesta.headers.get('cantidadTotalRegistros'));
-        this.cantidadTotalRegistros = respuesta.headers.get(
-          'cantidadTotalRegistros'
-        );
+    this.cargarRegistros(this.paginaActual, this.cantidadRegistrosAMostrar);
+  }
+
+  cargarRegistros(pagina: number, cantidadElementosAMostrar: number) {
+    this.generosService
+      .obtenerTodos(pagina, cantidadElementosAMostrar)
+      .subscribe(
+        (respuesta: HttpResponse<IGeneroDTO[]>) => {
+          this.generos = respuesta.body;
+          this.cantidadTotalRegistros = respuesta.headers.get(
+            'cantidadTotalRegistros'
+          );
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
+  }
+
+  actualizarPaginacion(datos: PageEvent) {
+    this.paginaActual = datos.pageIndex + 1;
+    this.cantidadRegistrosAMostrar = datos.pageSize;
+    this.cargarRegistros(this.paginaActual, this.cantidadRegistrosAMostrar);
+  }
+
+  borrar(id: number) {
+    this.generosService.borrar(id).subscribe(
+      () => {
+        // Volveremos a cargar los registros
+        this.cargarRegistros(this.paginaActual, this.cantidadRegistrosAMostrar);
       },
-      (error) => {
-        console.error(error);
-      }
+      (error) => console.error(error)
     );
   }
 }

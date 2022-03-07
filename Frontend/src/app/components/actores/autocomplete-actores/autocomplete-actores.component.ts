@@ -1,8 +1,10 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatTable } from '@angular/material/table';
+import { IActorPeliculaDTO } from 'src/app/models/Actor';
+import { ActoresService } from 'src/app/services/actores.service';
 
 @Component({
   selector: 'app-autocomplete-actores',
@@ -12,42 +14,24 @@ import { MatTable } from '@angular/material/table';
 export class AutocompleteActoresComponent implements OnInit {
   // Nos permite manejar un campo de un formulario de forma individual
   control: FormControl = new FormControl();
-  actores = [
-    {
-      nombre: 'Scarlett Johansson',
-      foto: 'https://t1.pixers.pics/img-1fb6f67c/posters-scarlett-johansson.jpg?H4sIAAAAAAAAA3WOS27EIBBEr4Ml7G4wP_sGs5sbWBjwxIk_CJhklNMHK8oy6kVXtVT9Cp5HtksAF44SEuyr91uAZd2qy2MKef0OpDeKYjPW60YQqzo_Q3LpjKRlvaGtYFRyThUbmvHL1uRu0wd5KyXmESD3XVxf9V1dLoPbM3BkGtCAHMwwSCeER-en2OZiD2-TbwW-FHbxeFC8pvlrohGpvhqUtO6kVjorq5D3-GjgH96vhpqC-w20BC0uM91vWmoxaSOlYhWvuOSLnY3ihlnB1eIYcscnOWs7h2Gx1s9m6n4AFqtabDEBAAA=',
-      personaje: '',
-    },
-    {
-      nombre: 'Elizabeth Olsen',
-      foto: 'https://www.latercera.com/resizer/ot8Jkg6MR1gE7S2Zdyg14ruta0Q=/380x570/smart/cloudfront-us-east-1.images.arcpublishing.com/copesa/XYOJ6VYII5BSLK6RLP5TDNTSOU.jpg',
-      personaje: '',
-    },
-    {
-      nombre: 'Sora Amamiya',
-      foto: 'https://m.media-amazon.com/images/M/MV5BZTE0Njg4ZjAtZTk5NS00Yjg3LTllODYtZmEzODE0ZTYzZjZkXkEyXkFqcGdeQXVyNDQxNjcxNQ@@._V1_.jpg',
-      personaje: '',
-    },
-  ];
-
-  actoresOriginal = this.actores;
-  actoresSeleccionados = [];
+  // Tendremos que pasar los actores seleccionados cuando estemos en modo edición
+  @Input() actoresSeleccionados: IActorPeliculaDTO[] = [];
+  actoresAMostrar: IActorPeliculaDTO[] = [];
   columnasAMostrar = ['imagen', 'nombre', 'personaje', 'acciones'];
   // Haremos referencia a nuestra tabla
   @ViewChild(MatTable) table: MatTable<any>;
 
-  constructor() {}
+  constructor(private actoresService: ActoresService) {}
 
   ngOnInit(): void {
     // Como control está asociado al input de la plantilla, cada vez que el usuario escriba
     // algo, se disparará este evento
-    this.control.valueChanges.subscribe((valor) => {
-      valor = valor.toString().toLowerCase();
-
-      this.actores = this.actoresOriginal;
-      this.actores = this.actores.filter(
-        (actor) => actor.nombre.toLowerCase().indexOf(valor) !== -1
-      );
+    this.control.valueChanges.subscribe((nombre) => {
+      if (typeof nombre === 'string' && nombre) {
+        this.actoresService.obtenerPorNombre(nombre).subscribe((actores) => {
+          this.actoresAMostrar = actores;
+        });
+      }
     });
   }
 

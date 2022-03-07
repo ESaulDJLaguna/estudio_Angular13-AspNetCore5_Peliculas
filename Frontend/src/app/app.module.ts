@@ -38,6 +38,8 @@ import { SelectorMultipleComponent } from './components/utilities/selector-multi
 import { AutocompleteActoresComponent } from './components/actores/autocomplete-actores/autocomplete-actores.component';
 import { HttpClientModule } from '@angular/common/http';
 import { MostrarErroresComponent } from './components/utilities/mostrar-errores/mostrar-errores.component';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { DetallePeliculaComponent } from './components/peliculas/detalle-pelicula/detalle-pelicula.component';
 
 @NgModule({
   declarations: [
@@ -70,6 +72,7 @@ import { MostrarErroresComponent } from './components/utilities/mostrar-errores/
     SelectorMultipleComponent,
     AutocompleteActoresComponent,
     MostrarErroresComponent,
+    DetallePeliculaComponent,
   ],
   imports: [
     BrowserModule,
@@ -81,6 +84,7 @@ import { MostrarErroresComponent } from './components/utilities/mostrar-errores/
     FormsModule,
     MarkdownModule.forRoot(),
     HttpClientModule,
+    SweetAlert2Module.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent],

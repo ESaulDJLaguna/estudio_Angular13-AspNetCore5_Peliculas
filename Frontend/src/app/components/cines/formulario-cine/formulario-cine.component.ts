@@ -15,6 +15,8 @@ export class FormularioCineComponent implements OnInit {
   @Output()
   guardarCambios: EventEmitter<ICineCreacionDTO> = new EventEmitter<ICineCreacionDTO>();
   coordenadaInicial: ICoordenada[] = [];
+  @Input()
+  errores: string[] = [];
 
   constructor(private formBuilder: FormBuilder) {}
 

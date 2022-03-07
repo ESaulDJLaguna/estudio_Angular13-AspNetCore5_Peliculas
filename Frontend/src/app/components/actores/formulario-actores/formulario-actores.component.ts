@@ -10,9 +10,12 @@ import { IActorCreacionDTO, IActorDTO } from 'src/app/models/Actor';
 export class FormularioActoresComponent implements OnInit {
   form: FormGroup;
   @Output()
-  submit: EventEmitter<IActorCreacionDTO> = new EventEmitter<IActorCreacionDTO>();
+  OnSubmitDatos: EventEmitter<IActorCreacionDTO> = new EventEmitter<IActorCreacionDTO>();
   @Input()
   modelo: IActorDTO;
+  @Input()
+  errores: string[] = [];
+  imagenCambiada = false;
 
   constructor(private formBuilder: FormBuilder) {}
 
@@ -35,6 +38,7 @@ export class FormularioActoresComponent implements OnInit {
   }
 
   archivoSeleccionado(file) {
+    this.imagenCambiada = true;
     this.form.get('foto').setValue(file);
   }
 
@@ -43,6 +47,9 @@ export class FormularioActoresComponent implements OnInit {
   }
 
   onSubmit() {
-    this.submit.emit(this.form.value);
+    if (!this.imagenCambiada) {
+      this.form.patchValue({ foto: null });
+    }
+    this.OnSubmitDatos.emit(this.form.value);
   }
 }

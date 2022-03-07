@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { IActorCreacionDTO, IActorDTO } from 'src/app/models/Actor';
+import { ActoresService } from 'src/app/services/actores.service';
+import { parsearErroresAPI } from '../../utilities/utilidades';
 
 @Component({
   selector: 'app-editar-actor',
@@ -8,21 +10,40 @@ import { IActorCreacionDTO, IActorDTO } from 'src/app/models/Actor';
   styleUrls: ['./editar-actor.component.css'],
 })
 export class EditarActorComponent implements OnInit {
-  modelo: IActorDTO = {
-    nombre: 'Scarlett Johansson',
-    fechaNacimiento: new Date(),
-    foto: 'https://t1.pixers.pics/img-1fb6f67c/posters-scarlett-johansson.jpg?H4sIAAAAAAAAA3WOS27EIBBEr4Ml7G4wP_sGs5sbWBjwxIk_CJhklNMHK8oy6kVXtVT9Cp5HtksAF44SEuyr91uAZd2qy2MKef0OpDeKYjPW60YQqzo_Q3LpjKRlvaGtYFRyThUbmvHL1uRu0wd5KyXmESD3XVxf9V1dLoPbM3BkGtCAHMwwSCeER-en2OZiD2-TbwW-FHbxeFC8pvlrohGpvhqUtO6kVjorq5D3-GjgH96vhpqC-w20BC0uM91vWmoxaSOlYhWvuOSLnY3ihlnB1eIYcscnOWs7h2Gx1s9m6n4AFqtabDEBAAA=',
-  };
+  modelo: IActorDTO;
+  errores: string[] = [];
 
-  constructor(private activatedRouter: ActivatedRoute) {}
+  constructor(
+    private router: Router,
+    private actoresService: ActoresService,
+    // Se utiliza para extraer las variables de ruta de la URL
+    private activatedRouter: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
+    // Leemos los parámetros de la url
     this.activatedRouter.params.subscribe((params) => {
-      // console.log(params.id);
+      // Buscamos el parámetro id (que definimos como una variable de ruta)
+      // y se pasa como parámetro a la petición get
+      this.actoresService.obtenerPorId(params.id).subscribe(
+        (actor) => {
+          this.modelo = actor;
+        },
+        // Como buena practica se trabaja con el error. Si el actor no fue
+        // encontrado, nos devuelve un 404, entonces reedirigiremos
+        // al usuario al listado de actores
+        () => this.router.navigate(['/actores'])
+      );
     });
   }
 
   guardarCambios(actor: IActorCreacionDTO) {
-    console.log(actor);
+    // Pasamos como parámetros el id y el género a editar
+    this.actoresService.editar(this.modelo.id, actor).subscribe(
+      () => {
+        this.router.navigate(['/actores']);
+      },
+      (error) => (this.errores = parsearErroresAPI(error))
+    );
   }
 }

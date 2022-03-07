@@ -1,0 +1,12 @@
+mat-chip-list {
+  display: inline-block;
+  margin-bottom: 0.5rem;
+}
+
+mat-chip {
+  cursor: pointer;
+}
+
+mat-chip.mat-standard-chip {
+  background-color: #7b1fa2;
+}

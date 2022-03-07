@@ -14,6 +14,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatTableModule } from '@angular/material/table';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatChipsModule } from '@angular/material/chips';
 
 @NgModule({
   declarations: [],
@@ -33,6 +35,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatTableModule,
     DragDropModule,
     MatPaginatorModule,
+    MatProgressSpinnerModule,
+    MatChipsModule,
   ],
 })
 export class MaterialModule {}

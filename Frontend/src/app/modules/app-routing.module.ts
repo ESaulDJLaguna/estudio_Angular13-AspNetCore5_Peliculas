@@ -11,6 +11,7 @@ import { EditarGeneroComponent } from '../components/generos/editar-genero/edita
 import { IndiceGenerosComponent } from '../components/generos/indice-generos/indice-generos.component';
 import { HomeComponent } from '../components/home/home.component';
 import { CrearPeliculaComponent } from '../components/peliculas/crear-pelicula/crear-pelicula.component';
+import { DetallePeliculaComponent } from '../components/peliculas/detalle-pelicula/detalle-pelicula.component';
 import { EditarPeliculaComponent } from '../components/peliculas/editar-pelicula/editar-pelicula.component';
 import { FiltroPeliculasComponent } from '../components/peliculas/filtro-peliculas/filtro-peliculas.component';
 
@@ -28,6 +29,7 @@ const routes: Routes = [
   { path: 'peliculas/crear', component: CrearPeliculaComponent },
   { path: 'peliculas/editar/:id', component: EditarPeliculaComponent },
   { path: 'peliculas/buscar', component: FiltroPeliculasComponent },
+  { path: 'peliculas/:id', component: DetallePeliculaComponent },
   { path: '**', redirectTo: '' },
 ];
 
