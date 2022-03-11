@@ -39,6 +39,15 @@ mat-label {
 }
 
 /* Cambia el color de la opción elegida en el <mat-select> */
-::ng-deep .mat-select-value {
+::ng-deep .mat-select-min-line {
   color: black;
+}
+
+/* Color de la flecha de selección de géneros */
+::ng-deep .mat-select-arrow {
+  color: #7b1fa2;
+}
+
+mat-paginator {
+  margin: 20px -20px -20px -20px;
 }

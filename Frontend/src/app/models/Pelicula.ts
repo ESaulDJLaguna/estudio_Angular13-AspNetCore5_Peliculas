@@ -1,4 +1,4 @@
-import { IActorDTO, IActorPeliculaDTO } from './Actor';
+import { IActorPeliculaDTO } from './Actor';
 import { ICineDTO } from './Cine';
 import { IGeneroDTO } from './Genero';
 
@@ -15,6 +15,7 @@ export interface IPeliculaCreacionDTO {
 }
 
 export interface IPeliculaDTO {
+  id: number;
   titulo: string;
   resumen: string;
   enCines: boolean;
@@ -26,7 +27,21 @@ export interface IPeliculaDTO {
   cines: ICineDTO[];
 }
 
-export interface PeliculaPostGet {
+export interface IPeliculaPostGet {
   generos: IGeneroDTO[];
   cines: ICineDTO[];
+}
+
+export interface ILandingPageDTO {
+  enCines: IPeliculaDTO[];
+  proximosEstrenos: IPeliculaDTO[];
+}
+
+export interface IPeliculaPutGet {
+  pelicula: IPeliculaDTO;
+  generosSeleccionados: IGeneroDTO[];
+  generosNoSeleccionados: IGeneroDTO[];
+  cinesSeleccionados: ICineDTO[];
+  cinesNoSeleccionados: ICineDTO[];
+  actores: IActorPeliculaDTO[];
 }

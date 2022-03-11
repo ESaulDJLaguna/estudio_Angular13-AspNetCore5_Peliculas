@@ -26,3 +26,9 @@ img {
 button {
   margin-left: 1rem;
 }
+
+a {
+  text-decoration: none;
+  color: black;
+  padding: 2px 1px 0;
+}

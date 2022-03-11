@@ -20,7 +20,7 @@
 			</div>
 		</div>
 
-		<div style="margin-top: 1rem;">
+		<div style="margin-top: 1rem; width: 800px;">
 			<h3>Resumen</h3>
 			<div>
 				<markdown [data]="pelicula.resumen" ngPreserveWhitespaces></markdown>
@@ -38,6 +38,10 @@
 				</div>
 			</div>
 		</div>
+	</div>
+	<div style="padding-left: 1rem; position: relative; width: 100%;" *ngIf="coordenadas.length > 0">
+		<h2>Mostrándose en los siguientes cines</h2>
+		<app-mapa [coordenadasIniciales]="coordenadas" [soloLectura]="true"></app-mapa>
 	</div>
 </div>
 

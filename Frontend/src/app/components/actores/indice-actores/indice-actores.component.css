@@ -1,0 +1,7 @@
+.mat-cell {
+  color: white;
+}
+
+::ng-deep .mat-select-value {
+  color: white;
+}

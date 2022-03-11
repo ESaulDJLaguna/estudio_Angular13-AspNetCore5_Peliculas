@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { IPeliculaDTO } from 'src/app/models/Pelicula';
+import { PeliculasService } from 'src/app/services/peliculas.service';
 
 @Component({
   selector: 'app-home',
@@ -6,28 +8,24 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
-  peliculasEnCines;
-  peliculasProximosEstrenos;
+  peliculasEnCines: IPeliculaDTO[];
+  peliculasProximosEstrenos: IPeliculaDTO[];
 
-  constructor() {}
+  constructor(private peliculasService: PeliculasService) {}
 
   ngOnInit(): void {
-    this.peliculasEnCines = [
-      {
-        titulo: 'Spider-Man',
-        fechaLanzamiento: new Date(),
-        precio: 1400.99,
-        poster:
-          'https://m.media-amazon.com/images/I/810OkkP0LnL._AC_SY679_.jpg',
-      },
-      {
-        titulo: 'Moana',
-        fechaLanzamiento: new Date('2016-11-14'),
-        precio: 300.99,
-        poster:
-          'https://m.media-amazon.com/images/I/71t7-smAl3L._AC_SY679_.jpg',
-      },
-    ];
-    this.peliculasProximosEstrenos = [];
+    this.cargarDatos();
+  }
+
+  cargarDatos() {
+    this.peliculasService.obtenerLandingPage().subscribe((landingPage) => {
+      this.peliculasEnCines = landingPage.enCines;
+      this.peliculasProximosEstrenos = landingPage.proximosEstrenos;
+    });
+  }
+
+  // El método borrado NO tiene qué hacer nada, solo debe volver a solicitar las películas
+  borrado() {
+    this.cargarDatos();
   }
 }

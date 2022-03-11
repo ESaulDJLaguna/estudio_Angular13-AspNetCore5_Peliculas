@@ -34,14 +34,12 @@
 
 	<h4>Seleccione los géneros</h4>
 
-	<app-selector-multiple (datosSeleccioandos)="generosSeleccionadosPadre($event)"
-		[NoSeleccionados]="generosNoSeleccionados">
+	<app-selector-multiple [Seleccionados]="generosSeleccionados" [NoSeleccionados]="generosNoSeleccionados">
 	</app-selector-multiple>
 
 	<h4>Seleccione los cines</h4>
 
-	<app-selector-multiple (datosSeleccioandos)="cinesSeleccionadosPadre($event)"
-		[NoSeleccionados]="cinesNoSeleccionados">
+	<app-selector-multiple [Seleccionados]="cinesSeleccionados" [NoSeleccionados]="cinesNoSeleccionados">
 	</app-selector-multiple>
 
 	<h4>Seleccione los actores</h4>

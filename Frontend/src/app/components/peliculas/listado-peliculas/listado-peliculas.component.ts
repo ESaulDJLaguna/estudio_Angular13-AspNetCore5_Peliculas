@@ -1,4 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { IPeliculaDTO } from 'src/app/models/Pelicula';
+import { PeliculasService } from 'src/app/services/peliculas.service';
 
 @Component({
   selector: 'app-listado-peliculas',
@@ -6,14 +8,18 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./listado-peliculas.component.css'],
 })
 export class ListadoPeliculasComponent implements OnInit {
-  @Input()
-  peliculas;
+  @Input() peliculas: IPeliculaDTO[];
+  @Output() borrado: EventEmitter<void> = new EventEmitter<void>();
 
-  constructor() {}
+  constructor(private peliculasService: PeliculasService) {}
 
   ngOnInit(): void {}
 
-  remover(indicePelicula: number): void {
-    this.peliculas.splice(indicePelicula, 1);
+  borrar(peliculaId: number): void {
+    this.peliculasService.borrar(peliculaId).subscribe(() => {
+      // Quiero disparar un evento que me permita avisarle al
+      // componente padre que se ha borrado una película
+      this.borrado.emit();
+    });
   }
 }

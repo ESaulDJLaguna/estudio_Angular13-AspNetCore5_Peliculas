@@ -1,6 +1,8 @@
 <h2>Buscar Películas</h2>
 
-<form [formGroup]="form">
+<mat-spinner *ngIf="!peliculas"></mat-spinner>
+
+<form [formGroup]="form" *ngIf="peliculas">
 	<mat-form-field appearance="outline">
 		<mat-label>Título</mat-label>
 		<input formControlName="titulo" matInput>
@@ -8,7 +10,9 @@
 	<mat-form-field appearance="outline">
 		<mat-label>Género</mat-label>
 		<mat-select formControlName="generoId">
-			<mat-option *ngFor="let genero of generos" [value]="genero.id">{{genero.nombre}}</mat-option>
+			<mat-option [value]="0">--Seleccione un género--</mat-option>
+			<mat-option *ngFor="let genero of generos" [value]="genero.id">{{genero.nombreGenero}}
+			</mat-option>
 		</mat-select>
 	</mat-form-field>
 
@@ -23,4 +27,7 @@
 	</div>
 </form>
 
-<app-listado-peliculas [peliculas]="peliculas"></app-listado-peliculas>
+<app-listado-peliculas (borrado)="borrado()" [peliculas]="peliculas"></app-listado-peliculas>
+
+<mat-paginator [length]="cantidadElementos" [pageSize]="cantidadElementosAMostrar" [pageSizeOptions]="[5, 10, 20]"
+	(page)="paginatorUpdate($event)" class="mat-elevation-z8"></mat-paginator>

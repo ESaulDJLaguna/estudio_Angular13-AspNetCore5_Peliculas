@@ -19,7 +19,7 @@ export class DetallePeliculaComponent implements OnInit {
   // nos estaría mostrando mensajes de advertencia si utilizamos una URL sin
   // pasarla por este mecanismo de seguridad
   trailerURL: SafeResourceUrl;
-  coordenadas: ICoordenadaConMensaje[];
+  coordenadas: ICoordenadaConMensaje[] = [];
 
   constructor(
     private peliculasService: PeliculasService,

@@ -16,10 +16,11 @@ export class FormularioPeliculaComponent implements OnInit {
     new EventEmitter<IPeliculaCreacionDTO>();
   @Input() modelo: IPeliculaDTO;
   @Input() generosNoSeleccionados: IMultipleSelectorModel[];
-  generosSeleccionados: IMultipleSelectorModel[] = [];
+  @Input() generosSeleccionados: IMultipleSelectorModel[] = [];
   @Input() cinesNoSeleccionados: IMultipleSelectorModel[];
-  cinesSeleccionados: IMultipleSelectorModel[] = [];
+  @Input() cinesSeleccionados: IMultipleSelectorModel[] = [];
   @Input() actoresSeleccionados: IActorPeliculaDTO[] = [];
+  imagenCambiada = false;
 
   constructor(private formBuilder: FormBuilder) {}
 
@@ -50,6 +51,7 @@ export class FormularioPeliculaComponent implements OnInit {
   }
   archivoSeleccionado(archivo: File) {
     this.form.get('poster').setValue(archivo);
+    this.imagenCambiada = true;
   }
 
   guardarCambios() {
@@ -63,14 +65,11 @@ export class FormularioPeliculaComponent implements OnInit {
       return { id: val.id, personaje: val.personaje };
     });
     this.form.get('actoresIds').setValue(actores);
+
+    if (!this.imagenCambiada) {
+      this.form.patchValue({ poster: null });
+    }
+
     this.onSubmit.emit(this.form.value);
-  }
-
-  generosSeleccionadosPadre(generosSeleccionados: IMultipleSelectorModel[]) {
-    this.generosSeleccionados = generosSeleccionados;
-  }
-
-  cinesSeleccionadosPadre(cinesSeleccionados: IMultipleSelectorModel[]) {
-    this.cinesSeleccionados = cinesSeleccionados;
   }
 }

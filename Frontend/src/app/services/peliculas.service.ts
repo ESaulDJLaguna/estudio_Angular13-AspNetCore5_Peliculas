@@ -1,12 +1,14 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { formatearFecha } from '../components/utilities/utilidades';
 import {
+  ILandingPageDTO,
   IPeliculaCreacionDTO,
   IPeliculaDTO,
-  PeliculaPostGet,
+  IPeliculaPostGet,
+  IPeliculaPutGet,
 } from '../models/Pelicula';
 
 @Injectable({
@@ -17,19 +19,43 @@ export class PeliculasService {
 
   constructor(private http: HttpClient) {}
 
+  public obtenerLandingPage(): Observable<ILandingPageDTO> {
+    return this.http.get<ILandingPageDTO>(this.apiUrl);
+  }
+
   public obtenerPorId(id: number): Observable<IPeliculaDTO> {
     return this.http.get<IPeliculaDTO>(`${this.apiUrl}/${id}`);
   }
 
-  public postGet(): Observable<PeliculaPostGet> {
-    return this.http.get<PeliculaPostGet>(`${this.apiUrl}/postget`);
+  public postGet(): Observable<IPeliculaPostGet> {
+    return this.http.get<IPeliculaPostGet>(`${this.apiUrl}/postget`);
   }
 
-  public crear(pelicula: IPeliculaCreacionDTO) {
-    console.log(pelicula);
+  public putGet(id: number): Observable<IPeliculaPutGet> {
+    return this.http.get<IPeliculaPutGet>(`${this.apiUrl}/putget/${id}`);
+  }
 
+  public filtrar(valores: any): Observable<any> {
+    const params = new HttpParams({ fromObject: valores });
+
+    return this.http.get<IPeliculaDTO[]>(`${this.apiUrl}/filtrar`, {
+      params,
+      observe: 'response',
+    });
+  }
+
+  public editar(id: number, pelicula: IPeliculaCreacionDTO) {
     const formData = this.ConstruirFormData(pelicula);
-    return this.http.post(this.apiUrl, formData);
+    return this.http.put(`${this.apiUrl}/${id}`, formData);
+  }
+
+  public crear(pelicula: IPeliculaCreacionDTO): Observable<number> {
+    const formData = this.ConstruirFormData(pelicula);
+    return this.http.post<number>(this.apiUrl, formData);
+  }
+
+  public borrar(id: number) {
+    return this.http.delete(`${this.apiUrl}/${id}`);
   }
 
   private ConstruirFormData(pelicula: IPeliculaCreacionDTO): FormData {

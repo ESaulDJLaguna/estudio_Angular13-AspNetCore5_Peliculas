@@ -28,7 +28,7 @@ namespace Backend
 				.HasKey(x => new { x.PeliculaId, x.CineId });
 
 
-			//* ES MUY IMPORTANTE DEJAR ESTO AQUÍ O DARÁ ERROR
+			//! ES MUY IMPORTANTE DEJAR ESTO AQUÍ O DARÁ ERROR
 			base.OnModelCreating(modelBuilder);
 		}
 
