@@ -10,16 +10,38 @@
 			<mat-icon>search</mat-icon>Buscar Películas
 		</a>
 	</div>
-	<div>
-		<a mat-button routerLink="generos">Géneros</a>
-	</div>
-	<div>
-		<a mat-button routerLink="actores">Actores</a>
-	</div>
-	<div>
-		<a mat-button routerLink="cines">Cines</a>
-	</div>
-	<div>
-		<a mat-button routerLink="peliculas/crear">Crear Película</a>
-	</div>
+	<app-autorizado [rol]="'admin'">
+		<ng-container autorizado>
+			<div>
+				<a mat-button routerLink="generos">Géneros</a>
+			</div>
+			<div>
+				<a mat-button routerLink="actores">Actores</a>
+			</div>
+			<div>
+				<a mat-button routerLink="cines">Cines</a>
+			</div>
+			<div>
+				<a mat-button routerLink="peliculas/crear">Crear Película</a>
+			</div>
+		</ng-container>
+	</app-autorizado>
+
+	<div class="espacio"></div>
+
+	<!--
+		Si el usuario no está autenticado, quiero mostrarle los enlaces de login y registro,
+		de lo contrario, se le mostrará su nombre y un enlace de logout
+	-->
+	<app-autorizado>
+		<ng-container autorizado>
+			<!-- Recordemos que en nuestra API al generar el token, tenemos un clail email -->
+			<span>Hola, {{seguridadService.obtenerCampoJWT('email')}}</span>
+			<a mat-button (click)="seguridadService.logout()">Logout</a>
+		</ng-container>
+		<ng-container noAutorizado>
+			<a mat-button routerLink="login">Login</a>
+			<a mat-button routerLink="registro">Registro</a>
+		</ng-container>
+	</app-autorizado>
 </mat-toolbar>

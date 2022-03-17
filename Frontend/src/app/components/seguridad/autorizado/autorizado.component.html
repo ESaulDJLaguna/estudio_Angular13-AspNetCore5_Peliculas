@@ -1,0 +1,5 @@
+<!-- Se mostrará si el usuario está autorizado -->
+<ng-content *ngIf="estaAutorizado()" select="[autorizado]"></ng-content>
+
+<!-- Se mostrará si el usuario NO está autorizado -->
+<ng-content *ngIf="!estaAutorizado()" select="[noAutorizado]"></ng-content>

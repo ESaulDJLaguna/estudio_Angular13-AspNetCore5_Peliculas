@@ -8,12 +8,16 @@
 				<p>
 					<a [routerLink]="'/pelicula/' + pelicula.id">{{pelicula.titulo}}</a>
 				</p>
-				<div>
-					<a mat-flat-button color="primary" [routerLink]="'/peliculas/editar/' + pelicula.id">Editar</a>
-					<button mat-flat-button color="warn" type="button"
-						[swal]="{title: 'Confirmación', text: '¿Está seguro que quiere borrar el registro?', showCancelButton: true}"
-						(confirm)="borrar(pelicula.id)">Borrar</button>
-				</div>
+				<app-autorizado [rol]="'admin'">
+					<ng-container autorizado>
+						<div>
+							<a mat-flat-button color="primary" [routerLink]="'/peliculas/editar/' + pelicula.id">Editar</a>
+							<button mat-flat-button color="warn" type="button"
+								[swal]="{title: 'Confirmación', text: '¿Está seguro que quiere borrar el registro?', showCancelButton: true}"
+								(confirm)="borrar(pelicula.id)">Borrar</button>
+						</div>
+					</ng-container>
+				</app-autorizado>
 			</div>
 		</div>
 	</ng-container>

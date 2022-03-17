@@ -14,6 +14,10 @@ export function parsearErroresAPI(response: any): string[] {
     // A veces el error es solo una cadena
     if (typeof response.error === 'string') {
       resultado.push(response.error);
+    } else if (Array.isArray(response.error)) {
+      // Se espera que 'response.error' sea un arreglo de objetos y cada
+      // objeto con una propiedad llamada 'description' que contiene el mensaje de error
+      response.error.forEach((valor) => resultado.push(valor.description));
     } else {
       // El error es un objeto con una llave (campo que tiene la regla) y un valor (arreglo de errores de validación)
       const mapaErrores = response.error.errors;

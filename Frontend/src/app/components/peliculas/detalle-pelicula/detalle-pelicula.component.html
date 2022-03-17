@@ -8,7 +8,8 @@
 				{{genero.nombreGenero}}
 			</mat-chip>
 		</mat-chip-list>
-		| {{fechaLanzamiento.toDateString()}} | Promedio: 0.0 | Tu voto: 0.0
+		| {{fechaLanzamiento.toDateString()}} | Promedio: {{pelicula.promedioVoto}} | Tu voto: <app-rating
+			(rated)="rated($event)" [ratingSeleccionado]="pelicula.votoUsuario"></app-rating>
 
 		<div style="display: flex;">
 			<span style="display: inline-block; margin-right: 1rem;">

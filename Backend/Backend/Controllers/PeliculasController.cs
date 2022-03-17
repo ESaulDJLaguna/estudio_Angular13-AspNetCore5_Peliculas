@@ -2,7 +2,10 @@
 using Backend.DTOs;
 using Backend.Models;
 using Backend.Utilidades;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -14,21 +17,25 @@ namespace Backend.Controllers
 {
   [Route("api/peliculas")]
   [ApiController]
+  [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
   public class PeliculasController : ControllerBase
   {
 	private readonly ApplicationDbContext context;
 	private readonly IMapper mapper;
 	private readonly IAlmacenadorArchivos almacenadorArchivos;
+	private readonly UserManager<IdentityUser> userManager;
 	private readonly string contenedor = "peliculas";
 
-	public PeliculasController(ApplicationDbContext context, IMapper mapper, IAlmacenadorArchivos almacenadorArchivos)
+	public PeliculasController(ApplicationDbContext context, IMapper mapper, IAlmacenadorArchivos almacenadorArchivos, UserManager<IdentityUser> userManager)
 	{
 	  this.context = context;
 	  this.mapper = mapper;
 	  this.almacenadorArchivos = almacenadorArchivos;
+	  this.userManager = userManager;
 	}
 
 	[HttpGet]
+	[AllowAnonymous]
 	public async Task<ActionResult<LandingPageDTO>> Get()
 	{
 	  var top = 6;
@@ -57,6 +64,8 @@ namespace Backend.Controllers
 	}
 
 	[HttpGet("{Id:int}")]
+	// Permitimos que usuarios anónimos puedan consultar esta acción
+	[AllowAnonymous]
 	public async Task<ActionResult<PeliculaDTO>> Get(int Id)
 	{
 	  //! Lo que haces es decirle que nos incluya los datos que se encuentran en
@@ -73,12 +82,47 @@ namespace Backend.Controllers
 
 	  if (pelicula == null) { return NotFound(); }
 
+	  var promedioVoto = 0.0;
+	  var usuarioVoto = 0;
+
+	  // Determinamos si hay votos para la pelicula
+	  if (await context.Ratings.AnyAsync(x => x.PeliculaId == Id))
+	  {
+		// Calculamos el promedio de votos
+		promedioVoto = await context.Ratings.Where(x => x.PeliculaId == Id)
+		  // Quiero calcular el promedio de la columna Puntuación. El cálculo se hace
+		  // a nivel de la BD y NO se trae todos los datos para hacer el cálculo
+		  .AverageAsync(x => x.Puntuacion);
+
+		// Primero comprobamos que el usuario esté autenticado.
+		if (HttpContext.User.Identity.IsAuthenticated)
+		{
+		  //! Sí hay votaciones
+		  // Obtenemos el voto del usuario en caso de que exista, para esto necesitamos su email
+		  var email = HttpContext.User.Claims.FirstOrDefault(x => x.Type == "email").Value;
+		  var usuario = await userManager.FindByEmailAsync(email);
+		  var usuarioId = usuario.Id;
+		  var ratingBD = await context.Ratings
+			.FirstOrDefaultAsync(x => x.UsuarioId == usuarioId && x.PeliculaId == Id);
+
+		  // Si el usuario ya ha votado
+		  if (ratingBD != null)
+		  {
+			usuarioVoto = ratingBD.Puntuacion;
+		  }
+		}
+
+	  }
+
 	  var dto = mapper.Map<PeliculaDTO>(pelicula);
+	  dto.VotoUsuario = usuarioVoto;
+	  dto.PromedioVoto = promedioVoto;
 	  dto.Actores = dto.Actores.OrderBy(x => x.Orden).ToList();
 	  return dto;
 	}
 
 	[HttpGet("filtrar")]
+	[AllowAnonymous]
 	// Necesitamos una clase que va a encapsular los datos que el usuario va a enviar a través
 	// de la petición HTTP
 	public async Task<ActionResult<List<PeliculaDTO>>> Filtrar([FromQuery] PeliculasFiltrarDTO peliculasFiltrarDTO)
@@ -90,7 +134,7 @@ namespace Backend.Controllers
 		peliculasQueryable = peliculasQueryable.Where(x => x.Titulo.Contains(peliculasFiltrarDTO.Titulo));
 	  }
 
-	  if(peliculasFiltrarDTO.EnCines)
+	  if (peliculasFiltrarDTO.EnCines)
 	  {
 		peliculasQueryable = peliculasQueryable.Where(x => x.EnCines);
 	  }
@@ -103,7 +147,7 @@ namespace Backend.Controllers
 		peliculasQueryable = peliculasQueryable.Where(x => x.FechaLanzamiento > hoy);
 	  }
 
-	  if(peliculasFiltrarDTO.GeneroId != 0)
+	  if (peliculasFiltrarDTO.GeneroId != 0)
 	  {
 		// Navegamos hacia PeliculasGeneros que es la clase que contiene los IDs de
 		// los géneros correspondientes, seleccionamos los géneros y estamos trayendo
@@ -152,7 +196,7 @@ namespace Backend.Controllers
 	{
 	  var peliculaActionResult = await Get(Id);
 
-	  if(peliculaActionResult.Result is NotFoundResult) { return NotFound(); }
+	  if (peliculaActionResult.Result is NotFoundResult) { return NotFound(); }
 
 	  var pelicula = peliculaActionResult.Value;
 
@@ -197,7 +241,7 @@ namespace Backend.Controllers
 		.Include(x => x.PeliculasCines)
 		.FirstOrDefaultAsync(x => x.Id == Id);
 
-	  if(pelicula == null)
+	  if (pelicula == null)
 	  {
 		return NotFound();
 	  }
@@ -205,7 +249,7 @@ namespace Backend.Controllers
 	  pelicula = mapper.Map(peliculaCreacionDTO, pelicula);
 
 	  // Si el usuario envío un poster editaremos el poster actual de la película
-	  if( peliculaCreacionDTO.Poster != null)
+	  if (peliculaCreacionDTO.Poster != null)
 	  {
 		pelicula.Poster = await almacenadorArchivos.EditarArchivo(contenedor, peliculaCreacionDTO.Poster, pelicula.Poster);
 	  }

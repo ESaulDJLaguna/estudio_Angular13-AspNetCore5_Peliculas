@@ -3,6 +3,8 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { ICoordenadaConMensaje } from 'src/app/models/Coordenada';
 import { IPeliculaDTO } from 'src/app/models/Pelicula';
+import { RatingService } from 'src/app/services/rating.service';
+import Swal from 'sweetalert2';
 import { PeliculasService } from '../../../services/peliculas.service';
 
 @Component({
@@ -26,7 +28,8 @@ export class DetallePeliculaComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     // Es un sanitizador que nos va a asegurar que no haya nada
     // malicioso en nuestra URL
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private ratingService: RatingService
   ) {}
 
   ngOnInit(): void {
@@ -45,6 +48,12 @@ export class DetallePeliculaComponent implements OnInit {
           };
         });
       });
+    });
+  }
+
+  rated(puntuacion: number) {
+    this.ratingService.rate(this.pelicula.id, puntuacion).subscribe(() => {
+      Swal.fire('Exitoso', 'Su voto ha sido recibido', 'success');
     });
   }
 
