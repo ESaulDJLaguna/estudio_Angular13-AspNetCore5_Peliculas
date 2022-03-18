@@ -45,6 +45,7 @@ import { LoginComponent } from './components/seguridad/login/login.component';
 import { RegistroComponent } from './components/seguridad/registro/registro.component';
 import { FormularioAutenticacionComponent } from './components/seguridad/formulario-autenticacion/formulario-autenticacion.component';
 import { SeguridadInterceptorService } from './services/seguridad-interceptor.service';
+import { IndiceUsuariosComponent } from './components/seguridad/indice-usuarios/indice-usuarios.component';
 
 @NgModule({
   declarations: [
@@ -82,6 +83,7 @@ import { SeguridadInterceptorService } from './services/seguridad-interceptor.se
     LoginComponent,
     RegistroComponent,
     FormularioAutenticacionComponent,
+    IndiceUsuariosComponent,
   ],
   imports: [
     BrowserModule,

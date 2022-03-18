@@ -92,6 +92,18 @@ namespace Backend
 		  ClockSkew = TimeSpan.Zero
 		});
 
+	  services.AddAuthorization(opciones =>
+	  {
+		opciones.AddPolicy
+		(
+		  // Nombre de la regla
+		  "EsAdmin",
+		  // Requiero que tengas un claim cuyo tipo sea: role y le podemos pasar un arreglo de valores permitidos
+		  // por ahora solo nos interesa un valor, por eso no pasamos un arreglo
+		  policy => policy.RequireClaim("role", "admin")
+		 );
+	  });
+
 	  services.AddControllers(options =>
 	  {
 		options.Filters.Add(typeof(FiltroDeExcepcion));

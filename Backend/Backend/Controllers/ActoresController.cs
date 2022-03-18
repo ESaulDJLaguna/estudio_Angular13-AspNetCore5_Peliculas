@@ -2,6 +2,8 @@
 using Backend.DTOs;
 using Backend.Models;
 using Backend.Utilidades;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -13,6 +15,7 @@ namespace Backend.Controllers
 {
   [Route("api/actores")]
   [ApiController]
+  [Authorize(AuthenticationSchemes =JwtBearerDefaults.AuthenticationScheme, Policy = "EsAdmin")]
   public class ActoresController : ControllerBase
   {
 	private readonly ApplicationDbContext context;

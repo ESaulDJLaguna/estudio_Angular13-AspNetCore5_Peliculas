@@ -1,6 +1,11 @@
-﻿using Backend.DTOs;
+﻿using AutoMapper;
+using Backend.DTOs;
+using Backend.Utilidades;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -20,13 +25,48 @@ namespace Backend.Controllers
 	private readonly UserManager<IdentityUser> userManager;
 	private readonly SignInManager<IdentityUser> signInManager;
 	private readonly IConfiguration configuration;
+	private readonly ApplicationDbContext context;
+	private readonly IMapper mapper;
 
-	public CuentasController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager,IConfiguration configuration)
+	public CuentasController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, IConfiguration configuration, ApplicationDbContext context, IMapper mapper)
 	{
 	  this.userManager = userManager;
 	  this.signInManager = signInManager;
 	  this.configuration = configuration;
+	  this.context = context;
+	  this.mapper = mapper;
 	}
+
+	[HttpGet("listadoUsuarios")]
+	[Authorize(AuthenticationSchemes =JwtBearerDefaults.AuthenticationScheme, Policy = "EsAdmin")]
+	public async Task<ActionResult<List<UsuarioDTO>>> ListadoUsuarios([FromQuery] PaginacionDTO paginacionDTO)
+	{
+	  // A través del ApplicationDbContext yo tengo acceso a las tablas de Identity
+	  var queryable = context.Users.AsQueryable();
+	  await HttpContext.InsertarParametrosPaginacionEnCabecera(queryable);
+	  var usuarios = await queryable.OrderBy(x => x.Email).Paginar(paginacionDTO).ToListAsync();
+	  return mapper.Map<List<UsuarioDTO>>(usuarios);
+	}
+
+	// Acciones a través de las cuales vamos a poder asignarle a un usuario el claim que lo indica como administrador
+	[HttpPost("HacerAdmin")]
+	[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "EsAdmin")]
+	public async Task<ActionResult> HacerAdmin([FromBody] string usuarioId)
+	{
+	  var usuario = await userManager.FindByIdAsync(usuarioId);
+	  await userManager.AddClaimAsync(usuario, new Claim("role", "admin"));
+	  return NoContent();
+	}
+
+	[HttpPost("RemoverAdmin")]
+	[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "EsAdmin")]
+	public async Task<ActionResult> RemoverAdmin([FromBody] string usuarioId)
+	{
+	  var usuario = await userManager.FindByIdAsync(usuarioId);
+	  await userManager.RemoveClaimAsync(usuario, new Claim("role", "admin"));
+	  return NoContent();
+	}
+
 	[HttpPost("crear")]
 	public async Task<ActionResult<RespuestaAutenticacion>> Crear([FromBody] CredencialesUsuario credenciales)
 	{

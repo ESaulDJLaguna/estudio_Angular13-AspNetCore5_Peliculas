@@ -1,10 +1,11 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import {
   ICredencialesUsuario,
   IRespuestaAutenticacion,
+  IUsuarioDTO,
 } from '../models/Seguridad';
 
 @Injectable({
@@ -15,6 +16,7 @@ export class SeguridadService {
   //! Definimos las llaves del local storage
   private readonly llaveToken = 'token';
   private readonly llaveExpiracion = 'token-expiracion';
+  private readonly campoRol = 'role';
 
   constructor(private httpClient: HttpClient) {}
 
@@ -46,7 +48,7 @@ export class SeguridadService {
   }
 
   obtenerRol(): string {
-    return '';
+    return this.obtenerCampoJWT(this.campoRol);
   }
 
   obtenerCampoJWT(campo: string): string {
@@ -92,5 +94,43 @@ export class SeguridadService {
 
   obtenerToken() {
     return localStorage.getItem(this.llaveToken);
+  }
+
+  //!MODIFICADO
+  obtenerUsuarios(pagina: number, recordsPorPagina: number): Observable<any> {
+    let params = new HttpParams();
+    params = params.append('pagina', pagina.toString());
+    params = params.append('recordsPorPagina', recordsPorPagina.toString());
+    return this.httpClient.get<IUsuarioDTO[]>(
+      `${this.apiUrl}/listadousuarios`,
+      {
+        observe: 'response',
+        params,
+      }
+    );
+  }
+
+  hacerAdmin(usuarioId: string) {
+    // En el endpoint de hacerAdmin recibimos un string y Angular necesita que le digamos
+    // que el Content-Type es application/json cuando enviamos un string porque de otro
+    // modo él por defecto dice que el Content-Type es text-plain
+    const headers = new HttpHeaders('Content-Type: application/json');
+    return this.httpClient.post(
+      `${this.apiUrl}/hacerAdmin`,
+      JSON.stringify(usuarioId),
+      { headers }
+    );
+  }
+
+  removerAdmin(usuarioId: string) {
+    // En el endpoint de hacerAdmin recibimos un string y Angular necesita que le digamos
+    // que el Content-Type es application/json cuando enviamos un string porque de otro
+    // modo él por defecto dice que el Content-Type es text-plain
+    const headers = new HttpHeaders('Content-Type: application/json');
+    return this.httpClient.post(
+      `${this.apiUrl}/removerAdmin`,
+      JSON.stringify(usuarioId),
+      { headers }
+    );
   }
 }

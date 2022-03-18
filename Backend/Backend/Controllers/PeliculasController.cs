@@ -17,7 +17,7 @@ namespace Backend.Controllers
 {
   [Route("api/peliculas")]
   [ApiController]
-  [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+  [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "EsAdmin")]
   public class PeliculasController : ControllerBase
   {
 	private readonly ApplicationDbContext context;

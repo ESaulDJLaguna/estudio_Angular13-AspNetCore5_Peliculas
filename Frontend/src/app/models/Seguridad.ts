@@ -7,3 +7,8 @@ export interface IRespuestaAutenticacion {
   token: string;
   expiracion: Date;
 }
+
+export interface IUsuarioDTO {
+  id: string;
+  email: string;
+}
