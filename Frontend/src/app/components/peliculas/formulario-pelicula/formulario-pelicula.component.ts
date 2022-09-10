@@ -10,16 +10,16 @@ import { IPeliculaCreacionDTO, IPeliculaDTO } from 'src/app/models/Pelicula';
   styleUrls: ['./formulario-pelicula.component.css'],
 })
 export class FormularioPeliculaComponent implements OnInit {
-  form: FormGroup;
-  @Input() errores: string[] = [];
-  @Output() onSubmit: EventEmitter<IPeliculaCreacionDTO> =
-    new EventEmitter<IPeliculaCreacionDTO>();
-  @Input() modelo: IPeliculaDTO;
-  @Input() generosNoSeleccionados: IMultipleSelectorModel[];
-  @Input() generosSeleccionados: IMultipleSelectorModel[] = [];
+  @Input() actoresSeleccionados: IActorPeliculaDTO[] = [];
   @Input() cinesNoSeleccionados: IMultipleSelectorModel[];
   @Input() cinesSeleccionados: IMultipleSelectorModel[] = [];
-  @Input() actoresSeleccionados: IActorPeliculaDTO[] = [];
+  @Input() errores: string[] = [];
+  @Input() generosNoSeleccionados: IMultipleSelectorModel[];
+  @Input() generosSeleccionados: IMultipleSelectorModel[] = [];
+  @Input() modelo: IPeliculaDTO;
+  @Output() onSubmit: EventEmitter<IPeliculaCreacionDTO> =
+    new EventEmitter<IPeliculaCreacionDTO>();
+  form: FormGroup;
   imagenCambiada = false;
 
   constructor(private formBuilder: FormBuilder) {}

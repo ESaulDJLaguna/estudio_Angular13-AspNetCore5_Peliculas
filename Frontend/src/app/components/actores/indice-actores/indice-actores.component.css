@@ -5,3 +5,7 @@
 ::ng-deep .mat-select-value {
   color: white;
 }
+
+mat-toolbar {
+  background-color: blue !important;
+}

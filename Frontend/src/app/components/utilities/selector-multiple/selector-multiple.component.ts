@@ -7,18 +7,12 @@ import { IMultipleSelectorModel } from 'src/app/models/MultipleSelectorModel';
   styleUrls: ['./selector-multiple.component.css'],
 })
 export class SelectorMultipleComponent implements OnInit {
+  @Input() NoSeleccionados: IMultipleSelectorModel[] = [];
+  @Input() Seleccionados: IMultipleSelectorModel[] = [];
+  @Output() datosSeleccioandos: EventEmitter<IMultipleSelectorModel[]> =
+    new EventEmitter<IMultipleSelectorModel[]>();
+
   constructor() {}
-
-  @Input()
-  Seleccionados: IMultipleSelectorModel[] = [];
-
-  @Input()
-  NoSeleccionados: IMultipleSelectorModel[] = [];
-
-  @Output()
-  datosSeleccioandos: EventEmitter<IMultipleSelectorModel[]> = new EventEmitter<
-    IMultipleSelectorModel[]
-  >();
 
   ngOnInit(): void {}
 

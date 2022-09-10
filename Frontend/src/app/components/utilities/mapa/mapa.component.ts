@@ -15,6 +15,11 @@ import { ICoordenada, ICoordenadaConMensaje } from 'src/app/models/Coordenada';
   styleUrls: ['./mapa.component.css'],
 })
 export class MapaComponent implements OnInit {
+  @Input() coordenadasIniciales: ICoordenadaConMensaje[] = [];
+  @Input() soloLectura: boolean = false;
+  @Output() coordenadaSeleccionada: EventEmitter<ICoordenada> =
+    new EventEmitter<ICoordenada>();
+  capas: Marker<any>[] = [];
   options = {
     layers: [
       tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -25,11 +30,6 @@ export class MapaComponent implements OnInit {
     zoom: 15,
     center: latLng(19.531408755687504, -99.02658820152284),
   };
-  capas: Marker<any>[] = [];
-  @Output() coordenadaSeleccionada: EventEmitter<ICoordenada> =
-    new EventEmitter<ICoordenada>();
-  @Input() coordenadasIniciales: ICoordenadaConMensaje[] = [];
-  @Input() soloLectura: boolean = false;
 
   constructor() {}
 

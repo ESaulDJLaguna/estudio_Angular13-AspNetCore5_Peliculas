@@ -6,8 +6,7 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./mostrar-errores.component.css'],
 })
 export class MostrarErroresComponent implements OnInit {
-  @Input()
-  errores: string[] = [];
+  @Input() errores: string[] = [];
 
   constructor() {}
 

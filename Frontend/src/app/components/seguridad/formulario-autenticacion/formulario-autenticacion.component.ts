@@ -8,11 +8,11 @@ import { ICredencialesUsuario } from 'src/app/models/Seguridad';
   styleUrls: ['./formulario-autenticacion.component.css'],
 })
 export class FormularioAutenticacionComponent implements OnInit {
-  form: FormGroup;
-  @Input() errores: string[] = [];
   @Input() accion: string;
+  @Input() errores: string[] = [];
   @Output() onSubmit: EventEmitter<ICredencialesUsuario> =
     new EventEmitter<ICredencialesUsuario>();
+  form: FormGroup;
 
   constructor(private formBuilder: FormBuilder) {}
 

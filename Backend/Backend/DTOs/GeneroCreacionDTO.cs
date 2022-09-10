@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Backend.DTOs
 {
-		public class GeneroCreacionDTO
-		{
-				[Required(ErrorMessage = "El campo {0} es requerido")]
-				[StringLength(maximumLength: 50, ErrorMessage = "La longitud máxima es de 10")]
-				[PrimeraLetraMayuscula]
-				public string NombreGenero { get; set; }
-		}
+  public class GeneroCreacionDTO
+  {
+	[Required(ErrorMessage = "El campo {0} es requerido")]
+	[StringLength(maximumLength: 50, ErrorMessage = "La longitud máxima es de 10")]
+	[PrimeraLetraMayuscula]
+	public string NombreGenero { get; set; }
+  }
 }

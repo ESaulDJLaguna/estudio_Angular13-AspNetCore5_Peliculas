@@ -1,3 +1,9 @@
+<!--
+	Si en donde estamos utilizando el componenten <app-listado-generico> no utilizamos:
+	<ng-container cargando> o <ng-container vacio>, el ngIf verá que el contenido de #carga y #vacios
+	no existe, por lo que utilizará los "valores por defecto", o sea, el gif animado o el texto
+	'No hay listado para mostrar'
+-->
 <div *ngIf="!listado">
 	<span #carga>
 		<ng-content select="[cargando]"></ng-content>

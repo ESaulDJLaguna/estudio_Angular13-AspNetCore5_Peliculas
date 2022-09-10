@@ -2,7 +2,8 @@ import { AbstractControl, ValidatorFn } from '@angular/forms';
 
 export function primeraLetraMayuscula(): ValidatorFn {
   return (control: AbstractControl) => {
-    // <string> es una forma de castear a string
+    // <string> es una forma de castear a string.
+    // value obtiene el valor actual del campo en el formGroup
     const valor = <string>control.value;
     if (!valor) return;
     if (valor.length === 0) return;

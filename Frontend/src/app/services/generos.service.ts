@@ -26,7 +26,7 @@ export class GenerosService {
     });
   }
 
-  public obtenerTodos() {
+  public obtenerTodos(): Observable<IGeneroDTO[]> {
     return this.http.get<IGeneroDTO[]>(`${this.apiUrl}/todos`);
   }
 

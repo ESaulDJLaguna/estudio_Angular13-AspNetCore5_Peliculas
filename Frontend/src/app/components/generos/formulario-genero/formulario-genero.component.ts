@@ -9,13 +9,11 @@ import { primeraLetraMayuscula } from '../../utilities/validators/primeraLetraMa
   styleUrls: ['./formulario-genero.component.css'],
 })
 export class FormularioGeneroComponent implements OnInit {
+  @Input() errores: string[] = [];
+  @Input() modelo: IGeneroCreacionDTO;
+  @Output() onSubmit: EventEmitter<IGeneroCreacionDTO> =
+    new EventEmitter<IGeneroCreacionDTO>();
   form: FormGroup;
-  @Input()
-  modelo: IGeneroCreacionDTO;
-  @Output()
-  onSubmit: EventEmitter<IGeneroCreacionDTO> = new EventEmitter<IGeneroCreacionDTO>();
-  @Input()
-  errores: string[] = [];
 
   constructor(private formBuilder: FormBuilder) {}
 

@@ -20,13 +20,12 @@ import { RatingComponent } from '../rating/rating.component';
 export class CicloDeVidaComponent
   implements OnInit, OnChanges, OnDestroy, DoCheck, AfterViewInit
 {
-  @Input()
-  titulo: string;
-  @ViewChild(RatingComponent)
-  ratingComponent: RatingComponent;
+  @Input() titulo: string;
+  @ViewChild(RatingComponent) ratingComponent: RatingComponent;
   timer: ReturnType<typeof setInterval>;
 
   constructor(private changeDetectorRef: ChangeDetectorRef) {}
+
   ngOnChanges(changes: SimpleChanges): void {
     console.log('OnChanges');
     console.log(changes);

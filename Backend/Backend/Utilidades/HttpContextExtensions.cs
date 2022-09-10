@@ -7,14 +7,16 @@ using System.Threading.Tasks;
 
 namespace Backend.Utilidades
 {
-		public static class HttpContextExtensions
+	public static class HttpContextExtensions
+	{
+		public async static Task InsertarParametrosPaginacionEnCabecera<T>(this HttpContext httpContext, IQueryable<T> queryable)
 		{
-				public async static Task InsertarParametrosPaginacionEnCabecera<T>(this HttpContext httpContext, IQueryable<T> queryable)
-				{
-						if(httpContext == null) { throw new ArgumentNullException(nameof(httpContext)); }
+			if (httpContext == null) { throw new ArgumentNullException(nameof(httpContext)); }
 
-						double cantidad = await queryable.CountAsync();
-						httpContext.Response.Headers.Add("cantidadTotalRegistros", cantidad.ToString());
-				}
+			// Cuenta cuántos registros hay en la tabla de la BD (trabaja con consulta no en memoria)
+			double cantidad = await queryable.CountAsync();
+			// Se enviará la cantidad total de registros en una tabla de la BD como respuesta en la cabecera de la petición
+			httpContext.Response.Headers.Add("cantidadTotalRegistros", cantidad.ToString());
 		}
+	}
 }

@@ -25,7 +25,7 @@ export class HomeComponent implements OnInit {
   }
 
   // El método borrado NO tiene qué hacer nada, solo debe volver a solicitar las películas
-  borrado() {
+  borradoHome() {
     this.cargarDatos();
   }
 }

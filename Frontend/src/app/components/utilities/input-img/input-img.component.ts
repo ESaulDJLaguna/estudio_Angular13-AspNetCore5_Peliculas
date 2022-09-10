@@ -7,11 +7,9 @@ import { toBase64 } from '../utilidades';
   styleUrls: ['./input-img.component.css'],
 })
 export class InputImgComponent implements OnInit {
+  @Input() urlImagenActual: string;
+  @Output() archivoSeleccionado: EventEmitter<File> = new EventEmitter<File>();
   imagenBase64: string;
-  @Output()
-  archivoSeleccionado: EventEmitter<File> = new EventEmitter<File>();
-  @Input()
-  urlImagenActual: string;
 
   constructor() {}
 

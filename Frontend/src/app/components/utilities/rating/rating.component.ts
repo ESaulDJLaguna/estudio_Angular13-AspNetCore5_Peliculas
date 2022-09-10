@@ -8,12 +8,9 @@ import Swal from 'sweetalert2';
   styleUrls: ['./rating.component.css'],
 })
 export class RatingComponent implements OnInit {
-  @Input()
-  maximoRating = 5;
-  @Input()
-  ratingSeleccionado = 0;
-  @Output()
-  rated: EventEmitter<number> = new EventEmitter<number>();
+  @Input() maximoRating = 5;
+  @Input() ratingSeleccionado = 0;
+  @Output() rated: EventEmitter<number> = new EventEmitter<number>();
   maximoRatingArr = [];
   votado = false;
   ratingAnterior;
@@ -21,7 +18,12 @@ export class RatingComponent implements OnInit {
   constructor(private seguridadService: SeguridadService) {}
 
   ngOnInit(): void {
+    // Creamos un arreglo con 0s. No tiene otra utilidad más que ser
+    // iterado y crear tantas estrellas como 0s hay.
     this.maximoRatingArr = Array(this.maximoRating).fill(0);
+    // Cuando se pasa el ratón sobre las estrellas, si no se selecciona
+    // alguna, no se perderá el coloreado anterior (si lo hay)
+    this.ratingAnterior = this.ratingSeleccionado;
   }
 
   manejarMouseEnter(index: number): void {

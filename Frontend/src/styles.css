@@ -18,6 +18,12 @@ html::-webkit-scrollbar-track {
 }
 
 body {
+  /* Inicio: permite que el navegador en 'Buscar Películas' esté siempre hasta abajo */
+  position: relative;
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  /* Fin */
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }

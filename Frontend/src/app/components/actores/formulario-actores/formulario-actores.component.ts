@@ -8,13 +8,11 @@ import { IActorCreacionDTO, IActorDTO } from 'src/app/models/Actor';
   styleUrls: ['./formulario-actores.component.css'],
 })
 export class FormularioActoresComponent implements OnInit {
+  @Input() errores: string[] = [];
+  @Input() modelo: IActorDTO;
+  @Output() OnSubmitDatos: EventEmitter<IActorCreacionDTO> =
+    new EventEmitter<IActorCreacionDTO>();
   form: FormGroup;
-  @Output()
-  OnSubmitDatos: EventEmitter<IActorCreacionDTO> = new EventEmitter<IActorCreacionDTO>();
-  @Input()
-  modelo: IActorDTO;
-  @Input()
-  errores: string[] = [];
   imagenCambiada = false;
 
   constructor(private formBuilder: FormBuilder) {}

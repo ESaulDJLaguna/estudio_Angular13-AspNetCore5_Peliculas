@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import {
@@ -18,7 +19,7 @@ export class SeguridadService {
   private readonly llaveExpiracion = 'token-expiracion';
   private readonly campoRol = 'role';
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient, private router: Router) {}
 
   // Se devolverá si el usuario está registrado o no
   estaLogueado(): boolean {
@@ -45,6 +46,7 @@ export class SeguridadService {
   logout() {
     localStorage.removeItem(this.llaveToken);
     localStorage.removeItem(this.llaveExpiracion);
+    this.router.navigate(['']);
   }
 
   obtenerRol(): string {
@@ -61,6 +63,8 @@ export class SeguridadService {
 
     // Hacemos un split por punto, recordemos que un token se divide
     // en tres partes, y la segunda parte (arreglo [1]) es la de los datos
+    // atob: decodifica una cadena de datos que ha sido codificada utilizando la codificación base-64
+    // JSON.parse, convierte un objeto de cadenas con notación JSON a un objeto javascript
     let dataToken = JSON.parse(atob(token.split('.')[1]));
 
     return dataToken[campo];

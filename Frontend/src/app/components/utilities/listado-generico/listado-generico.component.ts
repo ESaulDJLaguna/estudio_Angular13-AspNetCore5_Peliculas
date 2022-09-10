@@ -6,8 +6,7 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./listado-generico.component.css'],
 })
 export class ListadoGenericoComponent implements OnInit {
-  @Input()
-  listado;
+  @Input() listado;
 
   constructor() {}
 

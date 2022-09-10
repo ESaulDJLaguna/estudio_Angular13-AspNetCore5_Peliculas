@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace Backend.DTOs
 {
-		public class GeneroDTO
-		{
-				public int Id { get; set; }
-				public string NombreGenero { get; set; }
-		}
+	public class GeneroDTO
+	{
+		public int Id { get; set; }
+		public string NombreGenero { get; set; }
+	}
 }

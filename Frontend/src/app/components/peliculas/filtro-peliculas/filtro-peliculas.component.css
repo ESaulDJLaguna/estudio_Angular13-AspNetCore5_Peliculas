@@ -21,7 +21,7 @@ mat-label {
   color: #7b1fa2;
 }
 
-/* Color del borde del campo del formulario */
+/* Color del borde del campo del formulario sin que este sea seleccionado */
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
   color: gray;
 }
@@ -49,5 +49,8 @@ mat-label {
 }
 
 mat-paginator {
+  width: 100%;
+  position: absolute;
+  bottom: -190px;
   margin: 20px -20px -20px -20px;
 }

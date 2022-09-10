@@ -12,14 +12,14 @@ import { ActoresService } from 'src/app/services/actores.service';
   styleUrls: ['./autocomplete-actores.component.css'],
 })
 export class AutocompleteActoresComponent implements OnInit {
-  // Nos permite manejar un campo de un formulario de forma individual
-  control: FormControl = new FormControl();
   // Tendremos que pasar los actores seleccionados cuando estemos en modo edición
   @Input() actoresSeleccionados: IActorPeliculaDTO[] = [];
-  actoresAMostrar: IActorPeliculaDTO[] = [];
-  columnasAMostrar = ['imagen', 'nombre', 'personaje', 'acciones'];
   // Haremos referencia a nuestra tabla
   @ViewChild(MatTable) table: MatTable<any>;
+  actoresAMostrar: IActorPeliculaDTO[] = [];
+  columnasAMostrar = ['imagen', 'nombre', 'personaje', 'acciones'];
+  // Nos permite manejar un campo de un formulario de forma individual
+  control: FormControl = new FormControl();
 
   constructor(private actoresService: ActoresService) {}
 

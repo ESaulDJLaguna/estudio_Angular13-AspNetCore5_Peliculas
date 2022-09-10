@@ -16,7 +16,7 @@ namespace Backend.Utilidades
 			var valor = bindingContext.ValueProvider.GetValue(nombrePropiedad);
 
 			// Si no hay ningún valor
-			if(valor == ValueProviderResult.None)
+			if (valor == ValueProviderResult.None)
 			{
 				return Task.CompletedTask;
 			}

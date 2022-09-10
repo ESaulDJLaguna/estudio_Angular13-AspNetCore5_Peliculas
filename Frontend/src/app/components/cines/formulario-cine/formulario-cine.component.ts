@@ -9,14 +9,12 @@ import { ICoordenada } from 'src/app/models/Coordenada';
   styleUrls: ['./formulario-cine.component.css'],
 })
 export class FormularioCineComponent implements OnInit {
-  form: FormGroup;
-  @Input()
-  modelo: ICineCreacionDTO;
-  @Output()
-  guardarCambios: EventEmitter<ICineCreacionDTO> = new EventEmitter<ICineCreacionDTO>();
+  @Input() errores: string[] = [];
+  @Input() modelo: ICineCreacionDTO;
+  @Output() guardarCambios: EventEmitter<ICineCreacionDTO> =
+    new EventEmitter<ICineCreacionDTO>();
   coordenadaInicial: ICoordenada[] = [];
-  @Input()
-  errores: string[] = [];
+  form: FormGroup;
 
   constructor(private formBuilder: FormBuilder) {}
 

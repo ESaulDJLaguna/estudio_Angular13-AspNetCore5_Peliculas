@@ -14,41 +14,57 @@ import { PeliculasService } from 'src/app/services/peliculas.service';
   styleUrls: ['./filtro-peliculas.component.css'],
 })
 export class FiltroPeliculasComponent implements OnInit {
-  form: FormGroup;
-  generos: IGeneroDTO[] = [];
-  paginaActual = 1;
-  cantidadElementosAMostrar = 10;
   cantidadElementos;
-  peliculas: IPeliculaDTO[] = [];
+  // Número de películas que se mostrarán por página
+  cantidadElementosAMostrar = 10;
+  // Representa el formulario en la plantilla
+  form: FormGroup;
+  // Campos que tendrá el formulario. Se usará para inicializar form
   formularioOriginal = {
     titulo: '',
     generoId: 0,
     proximosEstrenos: false,
     enCines: false,
   };
+  // Listado de géneros que se mostrarán en el <mat-select>
+  generos: IGeneroDTO[] = [];
+  // Pagina actual que se muestra en el paginador
+  paginaActual = 1;
+  // Listado de películas
+  peliculas: IPeliculaDTO[] = [];
 
   constructor(
     private formBuilder: FormBuilder,
-    private location: Location,
+    private location: Location, // Permite trabajar directamente con la url
     private activatedRoute: ActivatedRoute,
     private generosService: GenerosService,
     private peliculasService: PeliculasService
   ) {}
 
   ngOnInit(): void {
+    // Inicializamos el formulario con los campos que necesitamos y sus valores iniciales
     this.form = this.formBuilder.group(this.formularioOriginal);
     this.cargarDatos();
   }
 
   cargarDatos() {
+    // Obtenemos los géneros desde la API
     this.generosService.obtenerTodos().subscribe((generos) => {
       this.generos = generos;
 
+      // Si alguien copia la url de una búsqueda específica y la comparte,
+      // con este método se leerán los parámetros y se llenará el formulario
+      // con los datos que se están compartiendo (solo se hará cuando se carga la página)
       this.leerValoresURL();
+      // Busca la película según los datos leídos en la url
       this.buscarPeliculas(this.form.value);
 
-      // 'valores', representa los valores que tiene actualmente el formulario
+      // 'valueChantges se ejecuta cada vez que hay un cambio en alguno de los campos del formulario
       this.form.valueChanges.subscribe((valores) => {
+        // 'valores': es un objeto que  representa los datos actuales en los campos del formulario
+        // {titulo: valor, generoId: valor, proximosEstrenos: valor, enCines: valor}
+
+        // Busca la película en la API y las muestra
         this.buscarPeliculas(valores);
         this.escribirParametrosBusquedaEnURL();
       });
@@ -56,30 +72,55 @@ export class FiltroPeliculasComponent implements OnInit {
   }
 
   private leerValoresURL() {
+    // Lee los queryParams de la url
     this.activatedRoute.queryParams.subscribe((params) => {
-      var objeto: any = {};
+      //x var objeto: any = {};
 
-      if (params.titulo) {
-        objeto.titulo = params.titulo;
-      }
+      //x if (params.titulo) {
+      //x   objeto.titulo = params.titulo;
+      //x }
 
-      if (params.generoId) {
-        objeto.generoId = Number(params.generoId);
-      }
+      //x if (params.generoId) {
+      //x   objeto.generoId = Number(params.generoId);
+      //x }
 
-      if (params.proximosEstrenos) {
-        objeto.proximosEstrenos = params.proximosEstrenos;
-      }
+      //x if (params.proximosEstrenos) {
+      //x   objeto.proximosEstrenos = params.proximosEstrenos;
+      //x }
 
-      if (params.enCines) {
-        objeto.enCines = params.enCines;
-      }
+      //x if (params.enCines) {
+      //x   objeto.enCines = params.enCines;
+      //x }
 
-      this.form.patchValue(objeto);
+      // Actualiza los datos del formulario con los parámetros de la url
+      //x this.form.patchValue(objeto);
+      this.form.patchValue(params);
+    });
+  }
+
+  buscarPeliculas(valores: any) {
+    /*
+		Al objeto actual (valores) que representa los campos el formulario, le agregamos
+    dos elementos más: pagina y recordsPorPagina, para enviarlos a la API
+    {titulo: valor, generoId: valor, proximosEstrenos: valor, enCines: valor, pagina: valor, recordsPorPagina: valor}
+		*/
+    valores.pagina = this.paginaActual;
+    valores.recordsPorPagina = this.cantidadElementosAMostrar;
+
+    // Traemos las películas desde la API y pasamos como parámetro el objeto valores, recibe
+    // como resultado un objeto response
+    this.peliculasService.filtrar(valores).subscribe((response) => {
+      console.log(response);
+
+      this.peliculas = response.body;
+      //x this.escribirParametrosBusquedaEnURL();
+      this.cantidadElementos = response.headers.get('cantidadTotalRegistros');
     });
   }
 
   private escribirParametrosBusquedaEnURL() {
+    // queryStrings almacenará un arreglo con los valores actuales de los campos del formulario modificados
+    // ["titulo=valor", "generoId=valor", ...]
     var queryStrings = [];
     var valoresFormulario = this.form.value;
 
@@ -101,20 +142,14 @@ export class FiltroPeliculasComponent implements OnInit {
       queryStrings.push(`enCines=${valoresFormulario.enCines}`);
     }
 
+    // Remplazamos la url actual por: peliculas/buscar y los query params. En el arreglo
+    // queryStrings, 'join' 'unirá' todos sus elementos separados por el caracter &
+    // titulo=valor&enCines=valor... El signo ? se pone automáticamente
     this.location.replaceState('peliculas/buscar', queryStrings.join('&'));
   }
 
-  buscarPeliculas(valores: any) {
-    valores.pagina = this.paginaActual;
-    valores.recordsPorPagina = this.cantidadElementosAMostrar;
-    this.peliculasService.filtrar(valores).subscribe((response) => {
-      this.peliculas = response.body;
-      this.escribirParametrosBusquedaEnURL();
-      this.cantidadElementos = response.headers.get('cantidadTotalRegistros');
-    });
-  }
-
   limpiar() {
+    // Reemplazamos los datos actual del formulario por los valores por defecto (vacíos)
     this.form.patchValue(this.formularioOriginal);
   }
 
@@ -124,6 +159,8 @@ export class FiltroPeliculasComponent implements OnInit {
     this.buscarPeliculas(this.form.value);
   }
 
+  // Cuando en el componente de <app-listado-peliculas> se borra una película, "envía una alerta"
+  // para indicar que vuelvan a cargarse los datos de las películas
   borrado() {
     this.cargarDatos();
   }

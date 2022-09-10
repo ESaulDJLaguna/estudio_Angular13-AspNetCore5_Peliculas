@@ -1,7 +1,11 @@
 <app-listado-generico [listado]="peliculas">
+	<ng-container cargando>
+		<mat-spinner></mat-spinner>
+	</ng-container>
+
 	<ng-container contenido>
 		<div class="peliculas-contenedor">
-			<div *ngFor="let pelicula of peliculas; let index = index" class="pelicula-contenedor">
+			<div *ngFor="let pelicula of peliculas" class="pelicula-contenedor">
 				<a [routerLink]="'/pelicula/' + pelicula.id">
 					<img [src]="pelicula.poster" alt="Poster">
 				</a>
@@ -12,6 +16,9 @@
 					<ng-container autorizado>
 						<div>
 							<a mat-flat-button color="primary" [routerLink]="'/peliculas/editar/' + pelicula.id">Editar</a>
+							<!-- Utilizamos sweetalert2. El evento (confirm) se ejecuta cuando se da clic en el botón de confirmar
+								en la alerta que aparece y ejecuta el método borrar al cual se le pasa el id de la película a eliminar
+							-->
 							<button mat-flat-button color="warn" type="button"
 								[swal]="{title: 'Confirmación', text: '¿Está seguro que quiere borrar el registro?', showCancelButton: true}"
 								(confirm)="borrar(pelicula.id)">Borrar</button>

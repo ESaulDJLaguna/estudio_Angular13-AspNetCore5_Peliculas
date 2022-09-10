@@ -5,22 +5,22 @@ using System.Threading.Tasks;
 
 namespace Backend.DTOs
 {
-		public class PaginacionDTO
-		{
-				public int Pagina { get; set; } = 1;
-				private int recordsPorPagina = 10;
-				private readonly int cantidadMaximaRecordsPorPagina = 50;
+	public class PaginacionDTO
+	{
+		private readonly int cantidadMaximaRecordsPorPagina = 50;
+		private int recordsPorPagina = 10;
 
-				public int RecordsPorPagina
-				{
-						get
-						{
-								return recordsPorPagina;
-						}
-						set
-						{
-								recordsPorPagina = (value > cantidadMaximaRecordsPorPagina) ? cantidadMaximaRecordsPorPagina : value;
-						}
-				}
+		public int Pagina { get; set; } = 1;
+		public int RecordsPorPagina
+		{
+			get
+			{
+				return recordsPorPagina;
+			}
+			set
+			{
+				recordsPorPagina = (value > cantidadMaximaRecordsPorPagina) ? cantidadMaximaRecordsPorPagina : value;
+			}
 		}
+	}
 }

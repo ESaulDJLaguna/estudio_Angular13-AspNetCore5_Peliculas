@@ -1,3 +1,11 @@
 button {
   margin-right: 1rem;
 }
+
+.mat-cell {
+  color: white;
+}
+
+::ng-deep.mat-select-value {
+  color: white;
+}

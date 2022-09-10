@@ -8,6 +8,7 @@ import { SeguridadService } from 'src/app/services/seguridad.service';
 })
 export class AutorizadoComponent implements OnInit {
   @Input() rol: string;
+
   constructor(private seguridadService: SeguridadService) {}
 
   ngOnInit(): void {}

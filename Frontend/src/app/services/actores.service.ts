@@ -48,6 +48,8 @@ export class ActoresService {
   public crear(actor: IActorCreacionDTO) {
     const formData = this.construirFormData(actor);
 
+    formData.forEach((data, key) => console.log(`${key}: ${data}`));
+
     return this.http.post(this.apiUrl, formData);
   }
 
