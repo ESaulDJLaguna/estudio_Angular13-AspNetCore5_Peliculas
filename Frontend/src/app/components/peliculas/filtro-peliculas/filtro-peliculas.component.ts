@@ -59,8 +59,10 @@ export class FiltroPeliculasComponent implements OnInit {
       // Busca la película según los datos leídos en la url
       this.buscarPeliculas(this.form.value);
 
-      // 'valueChantges se ejecuta cada vez que hay un cambio en alguno de los campos del formulario
+      // 'valueChanges se ejecuta cada vez que hay un cambio en alguno de los campos del formulario
       this.form.valueChanges.subscribe((valores) => {
+        console.log('Valores: ', valores);
+
         // 'valores': es un objeto que  representa los datos actuales en los campos del formulario
         // {titulo: valor, generoId: valor, proximosEstrenos: valor, enCines: valor}
 
@@ -74,27 +76,28 @@ export class FiltroPeliculasComponent implements OnInit {
   private leerValoresURL() {
     // Lee los queryParams de la url
     this.activatedRoute.queryParams.subscribe((params) => {
-      //x var objeto: any = {};
+      console.log({ params });
 
-      //x if (params.titulo) {
-      //x   objeto.titulo = params.titulo;
-      //x }
+      var objeto: any = {};
 
-      //x if (params.generoId) {
-      //x   objeto.generoId = Number(params.generoId);
-      //x }
+      if (params.titulo) {
+        objeto.titulo = params.titulo;
+      }
 
-      //x if (params.proximosEstrenos) {
-      //x   objeto.proximosEstrenos = params.proximosEstrenos;
-      //x }
+      if (params.generoId) {
+        objeto.generoId = Number(params.generoId);
+      }
 
-      //x if (params.enCines) {
-      //x   objeto.enCines = params.enCines;
-      //x }
+      if (params.proximosEstrenos) {
+        objeto.proximosEstrenos = params.proximosEstrenos;
+      }
+
+      if (params.enCines) {
+        objeto.enCines = params.enCines;
+      }
 
       // Actualiza los datos del formulario con los parámetros de la url
-      //x this.form.patchValue(objeto);
-      this.form.patchValue(params);
+      this.form.patchValue(objeto);
     });
   }
 
@@ -113,7 +116,6 @@ export class FiltroPeliculasComponent implements OnInit {
       console.log(response);
 
       this.peliculas = response.body;
-      //x this.escribirParametrosBusquedaEnURL();
       this.cantidadElementos = response.headers.get('cantidadTotalRegistros');
     });
   }
