@@ -3,8 +3,12 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --ssl -o",
     "build": "ng build",
+    "start:staging": "ng serve --c staging --ssl -o",
+    "start:prod": "ng serve --c production --ssl -o",
+    "build:staging": "ng build --c staging --base-href /",
+    "build:prod": "ng build --c production --base-href /ruta_subcarpeta_publicar/",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
